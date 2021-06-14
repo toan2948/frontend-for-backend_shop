@@ -16,8 +16,8 @@
   </form>
 
   <button class="bg-green-500 mr-1" (click) = "runGetToken()">get Jwt token</button>
-  <button class="bg-green-500" (click) = "runGetProduct()">get products</button>
-  <button class="bg-green-500" (click) = "runGetImage()">get images</button>
+  <button class="bg-green-500" (click) = "runGetProducts()">get products</button>
+  <button class="bg-green-500" (click) = "runGetImages()">get images</button>
 
   <button (click)="runRemoveToken()"> remove token</button>
 </div>
@@ -26,8 +26,8 @@
     <label>Path</label>
     <input type="text" formControlName="path">
     <label>Product_code</label>
-    <select formControlName="id">
-
+    <select  formControlName="id">
+        <option *ngFor="let code of product_codes">{{code}}</option>
     </select>
     <button type="submit">Save</button>
   </form>

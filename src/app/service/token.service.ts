@@ -22,7 +22,8 @@ export class TokenService {
     });
     return this.http.post<TokenResponse>(this.urlToken, body, {headers: httpHeaders})
       .pipe(
-        tap(res =>  localStorage.setItem('jwt_token', res.token)
+        tap(res =>
+          localStorage.setItem('jwt_token', res.token)
       ));
   }
   removeToken() {

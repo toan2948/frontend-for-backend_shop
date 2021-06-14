@@ -3,9 +3,10 @@ import {TokenService} from "../../service/token.service";
 import {ProductService} from "../../service/product.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient, HttpEvent, HttpHeaders, HttpResponse} from "@angular/common/http";
-import {map} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
+import Product from "../../Model/product";
 
 @Component({
   selector: 'app-product-form',
@@ -13,8 +14,8 @@ import {environment} from "../../../environments/environment";
   styleUrls: ['./product-form.component.css']
 })
 export class ProductFormComponent implements OnInit {
-  products = [];
-  product_code=[];
+  products: Product[] = [];
+  product_codes: string[] =[];
 
   productForm = new FormGroup({
     name: new FormControl(''),
@@ -33,6 +34,21 @@ export class ProductFormComponent implements OnInit {
   urlProduct = environment.apiBaseUrl + '/api/v2/admin/products';
 
   ngOnInit(): void {
+    this.runGetToken();
+    this.getProductCodes();
+  }
+
+  getProductCodes(){
+    this.productService.getProducts().pipe(
+      tap( res =>
+        {
+          this.product_codes = res.map(product => product.code)
+        }
+      )
+    ).
+    subscribe(() =>  null
+        // console.log(res)
+    )
   }
   runGetToken(){
     // console.log(this.tokenService.getToken());
@@ -42,9 +58,8 @@ export class ProductFormComponent implements OnInit {
       })
   }
 
-
-  runGetProduct(){
-    this.productService.getProduct().subscribe(res => {
+  runGetProducts(){
+    this.productService.getProducts().subscribe(res => {
       console.log(res);
       this.products = res;
     });
@@ -79,8 +94,8 @@ export class ProductFormComponent implements OnInit {
 
       );
   }
-  runGetImage(){
-      this.productService.getImage().subscribe(res => console.log(res))
+  runGetImages(){
+      this.productService.getImages().subscribe(res => console.log(res))
   }
 
   runPostImage(){
@@ -88,7 +103,7 @@ export class ProductFormComponent implements OnInit {
     const data =
       {
         "path": this.imageForm.value.path,
-        "owner": "/api/v2/admin/products/000F_office_grey_jeans"
+        "owner": "/api/v2/admin/products/" + this.imageForm.value.id
       };
     this.productService.postImage(data).subscribe( res => console.log(res));
   }
