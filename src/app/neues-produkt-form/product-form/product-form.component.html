@@ -1,0 +1,41 @@
+<div id="productForm" class="pl-10 py-10">
+  <form [formGroup] = "productForm" (ngSubmit) = "collectData()">
+    <label> Titel <span> &nbsp; Gibt hier den Titel deines Produktes ein</span></label>
+    <br>
+    <input type="text" required ngModel class="w-full" formControlName="name"><br>
+    <label>Produktkategorie <span> &nbsp; z.B. Kleidung, E-books</span></label><br>
+    <select class="w-full" formControlName="category">
+      <option>mens_jeans</option>
+      <option>womens_jeans</option>
+    </select><br>
+    <label>Preis</label><br>
+    <input type="text" class="w-full" formControlName="preis"><br>
+    <label>Produktbeschreibung</label><br>
+    <textarea class="w-full h-48" formControlName="desc"></textarea>
+    <button type="submit" >Submit</button>
+  </form>
+
+  <button class="bg-green-500 mr-1" (click) = "runGetToken()">get Jwt token</button>
+  <button class="bg-green-500" (click) = "runGetProduct()">get products</button>
+  <button class="bg-green-500" (click) = "runGetImage()">get images</button>
+
+  <button (click)="runRemoveToken()"> remove token</button>
+</div>
+<div>
+  <form [formGroup] = "imageForm" (ngSubmit) = "runPostImage()">
+    <label>Path</label>
+    <input type="text" formControlName="path">
+    <label>Product_code</label>
+    <select formControlName="id">
+
+    </select>
+    <button type="submit">Save</button>
+  </form>
+</div>
+
+<div>
+  <img src={{img1}} >
+</div>
+
+
+
