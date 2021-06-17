@@ -53,12 +53,4 @@ export class ProductService {
     return this.http.post<any>(this.urlImage, body, {headers: httpHeaders});
   }
 
-  // getProductCodes(){
-  //   const httpHeaders = new HttpHeaders({
-  //     'Content-Type': 'application/json',
-  //     accept: 'application/json'
-  //   });
-  //   return this.http.get<any>(this.urlProduct, {headers: httpHeaders}).pipe(
-  //
-  // }
 }

@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { BildHochladenRoutingModule } from './bild-hochladen-routing.module';
 import { BildHochladenComponent } from './bild-hochladen/bild-hochladen.component';
 import { MatIconModule} from "@angular/material/icon";
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { MatIconModule} from "@angular/material/icon";
   imports: [
     CommonModule,
     BildHochladenRoutingModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule
   ]
 })
 export class BildHochladenModule { }
