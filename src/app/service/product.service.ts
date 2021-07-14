@@ -19,7 +19,8 @@ export class ProductService {
       'Content-Type': 'application/json',
       accept: 'application/json'
     });
-    return this.http.get<Product[]>(this.urlProduct, {headers: httpHeaders}); // <- the return type of get is important, in this case 'product'
+    return this.http.get<Product[]>(this.urlProduct, {headers: httpHeaders});
+    // <- the return type of the get method is important, in this case the return type is 'product'
     // return this.http.get(this.urlProduct);
   }
 
@@ -33,11 +34,11 @@ export class ProductService {
     // return this.http.get(this.urlProduct);
   }
 
-  postFile(fileToUpload: File): number {
-    const formData: FormData = new FormData();
-    formData.append('fileKey', fileToUpload, fileToUpload.name);
-    return 1;
-  }
+  // postFile(fileToUpload: File): number {
+  //   const formData: FormData = new FormData();
+  //   formData.append('fileKey', fileToUpload, fileToUpload.name);
+  //   return 1;
+  // }
   getImages(){
     const httpHeaders = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -47,10 +48,9 @@ export class ProductService {
   }
   postImage(body: any){
     const httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      accept: 'application/json'
+      // 'Content-Type': 'application/json',
+      // accept: 'application/json'
     });
     return this.http.post<any>(this.urlImage, body, {headers: httpHeaders});
   }
-
 }

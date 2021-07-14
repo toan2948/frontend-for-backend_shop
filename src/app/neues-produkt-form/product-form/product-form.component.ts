@@ -85,15 +85,14 @@ export class ProductFormComponent implements OnInit {
             "locale": "en_US"
           }
         },
-        "images": [
-          "/api/v2/admin/product-images/1"
-        ]
+        // "images": [
+        //   "/api/v2/admin/product-images/2"
+        // ]
       };
 
      // const body = JSON.stringify(data);
     this.productService.postProduct(data).subscribe(
       res => console.log(res),
-
       );
   }
   runGetImages(){

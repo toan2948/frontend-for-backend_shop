@@ -26,6 +26,9 @@ export class BildHochladenComponent implements OnInit {
     file: new FormControl('')
   });
 
+  fileContent: string | undefined;
+  fileName: string | undefined;
+
   constructor(private http: HttpClient, private imageService: ImageService,
               private tokenService: TokenService,
               private productService: ProductService) { }
@@ -40,7 +43,6 @@ export class BildHochladenComponent implements OnInit {
       .subscribe(res => {
         console.log(res.token);
       })
-
   }
 
   getProductCodes(){
@@ -56,42 +58,63 @@ export class BildHochladenComponent implements OnInit {
     )
   }
 
-  // runPostImage(){
-  //   console.log(this.productImageForm.value);
-  //   const data =
-  //     {
-  //       "path": this.productImageForm.value.path,
-  //       "owner": "/api/v2/admin/products/" + this.productImageForm.value.id
-  //     };
-  //   this.imageService.postImage(data).subscribe( res => console.log(res));
-  // }
 
   //upload Image
-  uploadFile(event: any){
+
+    //** youtube**
+
+    uploadFile(event: any){
     // @ts-ignore
     const file = (event.target as HTMLInputElement).files[0];
-  this.uploadForm.patchValue({
-    file: file
-  });
-  // @ts-ignore
+    this.uploadForm.patchValue({
+      file: file
+    });
+    // @ts-ignore
     this.uploadForm.get('file').updateValueAndValidity();
- }
+  }
+
+
+    //** Christopher **
+
+    // uploadFile(files: any){
+
+    // if (files.length === 0)
+    //   return;
+    // var mimeType = files[0].type;
+    // var reader = new FileReader();
+    // let imagePath = files;
+    // reader.readAsDataURL(files[0]);
+    // reader.onload = (_event) => {
+    //   // @ts-ignore
+    //   this.fileContent = reader.result.toString();
+    //  // @ts-ignore
+    //   this.fileName = this.fileUploader.nativeElement.value.split(/(\\|\/)/g).pop()
+    // }
+ // }
 
   submitUploadData(){
     console.log(this.uploadForm.value);
 
     const formData: any = new FormData();
-    // @ts-ignore
-    const owner = "/api/v2/admin/products/" + this.uploadForm.value.id;
+    // const owner = "/api/v2/admin/products/" + this.uploadForm.value.id;
+    // formData.append('owner', owner);
 
-    formData.append('owner', owner);
+    formData.append('owner', this.uploadForm.value.id);
+
     // @ts-ignore
     formData.append('file', this.uploadForm.get('file').value);
-  this.imageService.uploadData(formData).subscribe(res => console.log(res));
+      this.imageService.uploadData(formData).subscribe(res => console.log(res));
+
+    // const data =
+    //   {
+    //     "owner": "/api/v2/admin/products/" + this.uploadForm.value.id,
+    //     "file": this.fileContent,
+    //     "name": this.fileName,
+    //     "path": "xoa"
+    //   };
+  // this.imageService.uploadData(data).subscribe(res => console.log(res));
+
+
   }
-
-
-
-
 
 }

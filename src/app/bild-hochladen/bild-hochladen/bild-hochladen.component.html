@@ -3,10 +3,12 @@
   <form [formGroup] = "uploadForm" (ngSubmit) = "submitUploadData()">
     <div class="h-96 w-96 border-2 border-dashed rounded-xl mx-20 my-14 flex flex-col items-center">
       <mat-icon class="white-icon mt-24 mb-10 material-icons md-dark">image</mat-icon>
-      <input class="my-2" type="file" (change)="uploadFile($event)">
+<!--      <input class="my-2" #file type="file" (change)="uploadFile(file.files)">-->
 <!--      <h4>Bilder/videos hochladen </h4>-->
 <!--      <h4>oder reinziehen</h4>-->
-    <select  formControlName="id">
+      <input class="my-2" #file type="file" (change)="uploadFile($event)">
+
+      <select  formControlName="id">
       <option value="">--Please choose a product--</option>
       <option *ngFor="let code of product_codes">{{code}}</option>
     </select>
