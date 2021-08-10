@@ -1,0 +1,225 @@
+<div class="w-full">
+  <div class="flex-grow flex-row justify-items-center">
+    <div class="border-2">
+      <p>Passend für die Produktkategorie</p>
+<!--      <form [formGroup]="optionForm" (ngSubmit) ="selectOption()" >-->
+        <form [formGroup]="optionForm"  >
+        <!--Using multiple to select multiple value-->
+        <select multiple size = 6  formControlName="option">
+          <option>-select the options</option>
+          <option *ngFor = "let option of optionCodes" (click)="selectOption()">{{option}}</option>
+        </select>
+
+        <br>
+      </form>
+
+<!--      submit values form-->
+<!--      <form [formGroup]="OptionValueForm" (ngSubmit)="selectOptionValues()">-->
+<!--        <p>Choose optionValues (Size):</p>-->
+
+<!--        <select multiple size="6" formControlName="optionValues">-->
+<!--          <option *ngFor = "let optionValue of optionValue_Size_Buffer" >{{optionValue}}</option>-->
+<!--        </select>-->
+<!--        <br>-->
+<!--        <button class="bg-[rgba(123,123,123,0.5)]" type="submit">Show Varianten</button>-->
+<!--      </form>-->
+      <!--      end form-->
+
+
+      <div> Choose sizes:
+        <div *ngFor ="let size of optionValue_Size_Buffer">
+          <input type="checkbox" name="size" (change)="selectOptionValues2($event)" [value]="size" > {{size}}
+        </div>
+      </div>
+
+      <div>
+        Choose Colors:
+        <div *ngFor = "let color of optionValue_Color_Buffer; let i = index">
+          <input type="checkbox" name="color" (change)="selectOptionValues2($event)" [value]="color"> {{color}}
+        </div>
+      </div>
+
+      <div>
+        <mat-form-field class="example-chip-list" appearance="fill">
+          <mat-label>Size Values</mat-label>
+          <mat-chip-list #chipListSize aria-label="Option Value selection">
+            <mat-chip
+              *ngFor="let size of sizeArray"
+              [selectable]="selectable"
+              [removable]="removable"
+              (removed)="removeSize(size)">
+              {{size}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input
+              placeholder="New Size..."
+              #valueSizeInput
+              [formControl]="sizeValueCtrl"
+              [matAutocomplete]="autoSize"
+              [matChipInputAddOnBlur] = "addOnBlur"
+              [matChipInputFor]="chipListSize"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="addSize($event)">
+          </mat-chip-list>
+          <mat-autocomplete #autoSize="matAutocomplete" (optionSelected)="selectedSize($event)">
+            <mat-option *ngFor="let size of filteredSizeValues | async" [value]="size">
+              {{size}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+<br>
+
+        <mat-form-field class="example-chip-list" appearance="fill">
+          <mat-label>Option Values</mat-label>
+          <mat-chip-list #chipList aria-label="Option Value selection">
+            <mat-chip
+              *ngFor="let optionValue of otherOption"
+              [selectable]="selectable"
+              [removable]="removable"
+              (removed)="remove(optionValue)">
+              {{optionValue}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            <input
+              placeholder="New optionValue..."
+              #valueOptionInput
+              [formControl]="optionValueCtrl"
+              [matAutocomplete]="auto"
+              [matChipInputAddOnBlur] = "addOnBlur"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="add($event)">
+          </mat-chip-list>
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let optionValue of filteredValues | async" [value]="optionValue">
+              {{optionValue}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+
+      <br>
+      <br>
+      <button (click)="runGetProductVariants()">Show Variants</button>
+      <br>
+      <button class="bg-blend-darken mr-1" (click)="runGetProductOptionValues()">get Option Values</button>
+      <br>
+      <button class="bg-[#0f0] mr-1" (click)="showArrayOfOptionValues()">show Option Values</button>
+      <br>
+
+    </div>
+    <div class="border-2">
+<!--      variant form-->
+<!--      <form [formGroup]="variantForm" (ngSubmit) = "submitVariants()">-->
+<!--        <table>-->
+<!--        <thead>-->
+<!--          <tr>-->
+<!--            <th>Varianten</th>-->
+<!--            <th>Preis</th>-->
+<!--            <th>Sale Presi</th>-->
+<!--            <th>QR_code</th>-->
+<!--          </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--            <tr *ngFor ="let selectedSizeValue of selectedOptionValues" >-->
+<!--              <th>-->
+<!--                <section >-->
+<!--                  <input type="checkbox" [value]="selectedSizeValue" (change)="changeCheckboxOption($event)" >{{selectedSizeValue}}-->
+<!--                </section>-->
+<!--              </th>-->
+<!--                  <th><mat-radio-button value="{{preis.value}}" ><input type="text" #preis formControlName ="preis" ></mat-radio-button></th>-->
+<!--                  <th><mat-radio-button value="{{sale_preis.value}}"><input type="text" #sale_preis formControlName ="sale_preis"></mat-radio-button></th>-->
+<!--            </tr>-->
+<!--        </tbody>-->
+<!--        </table>-->
+<!--        <button class="bg-[rgba(123,123,123,0.5)]" [disabled]="!variantForm.valid">save Variants</button>-->
+<!--      </form>-->
+<!--      <p>Form Status: {{ variantForm.value | json }}</p>-->
+    </div>
+
+    <div class="border-2">
+      <!--      variant form-->
+      <form [formGroup]="variantArrayForm" (ngSubmit) = "submitVariantArray()">
+        <table>
+          <thead>
+          <tr>
+            <th>Varianten</th>
+            <th>Preis</th>
+            <th>Sale Presi</th>
+            <th>QR_code</th>
+          </tr>
+          </thead>
+          <tbody>
+<!--          <tr *ngFor ="let selectedSizeValue of selectedOptionValues; let y = index" >-->
+          <tr>
+          <div id="array_variant" formArrayName="variant" >
+            <div *ngFor="let variant of variant.controls; let i= index" >
+<!--              variant here is the function variant() in varianten.component.ts-->
+              <div [formGroupName] ="i">
+                <th>
+                  <section>
+                    <input type="checkbox" [checked]="flagCheckbox[i]" (change)="changeCheckboxOption($event, i)" [value] = "selectedOptionValues[i]" > {{selectedOptionValues[i]}}
+                  </section>
+                </th>
+                <div *ngIf ="flagCheckbox[i]">
+<!--                  [ngModelOptions]="{standalone: true} help to connect the template and component-->
+                  <input type="radio" [name]="'preis' + i" [disabled]="disableStatusCheckboxPreis[i]" [checked]="checkStatusCheckboxPreis[i]" (change)="changeCheckboxPreis($event, i)" [value]="preis[i]" > <input type="text" [(ngModel)] = "preis[i]" [ngModelOptions]="{standalone: true}" (keyup)="getPreis($event, i)"   />
+                  <input type="radio" [name]="'preis' + i" [disabled]="disableStatusCheckboxSalePreis[i]" [checked]="checkStatusCheckboxSalePreis[i]" (change)="changeCheckboxSalePreis($event, i)" [value]="salePreis[i]" > <input [(ngModel)] = "salePreis[i]" [ngModelOptions]="{standalone: true}" type="text" (keyup)="getSalePreis($event, i)"/>
+<!--                  <th><input type="radio" [checked]="checkStatusCheckboxPreis[i]" name="'preis'+{{i}}" value="{{preis2.value}}" (change)="changeRadioButtonPreis($event, i)" ><input type="text" #preis2 /></th>-->
+<!--                  <th><input type="radio" [checked]="checkStatusCheckboxSalePreis[i]" name="'sale_preis'+{{i}}" value="{{sale_preis2.value}}"  ><input type="text" #sale_preis2 formControlName ="sale_preis2"/></th>-->
+                </div>
+              </div>
+            </div>
+          </div>
+            <p>Form value: {{ variantArrayForm.value | json }}</p>
+
+          </tr>
+          </tbody>
+        </table>
+        <button class="bg-[rgba(123,123,123,0.5)]" >save Variants</button>
+      </form>
+    </div>
+
+  </div>
+
+
+<!--  **** sample of a dynamically array form-->
+<!--  <form [formGroup]="profileForm" (ngSubmit) ="register()" >-->
+<!--    <label>Email</label>-->
+<!--    <input type="text" formControlName="email" >-->
+<!--    <label>Username</label>-->
+<!--    <div formArrayName="userName">-->
+<!--          <div *ngFor="let control of getUserName.controls; let i = index" [formGroupName]="i">-->
+<!--            <input type="text" formControlName="name">-->
+<!--            <input type ="text" formControlName="age">-->
+<!--            <button (click)="removeUserName(i)">Remove</button>-->
+<!--          </div>-->
+<!--          <button class="bg-[rgb(123,123,123)] border-2" (click)="addUsername()">Add a new user</button>-->
+<!--    </div>-->
+<!--    <button class="btn btn-primary" type="submit">Register</button>-->
+<!--  </form>-->
+<!--  {{profileForm.value | json}}-->
+<!--chips: https://material.angular.io/components/chips/examples-->
+</div>
+
+<!--  <mat-form-field class="example-full-width" appearance="fill">-->
+<!--    <mat-label>Number</mat-label>-->
+<!--    <input type="text"-->
+<!--           placeholder="Pick one"-->
+<!--           varia-label="Number"-->
+<!--           matInput-->
+<!--           [formControl]="myControl"-->
+<!--           [matAutocomplete]="auto2">-->
+<!--    <mat-autocomplete #auto2="matAutocomplete">-->
+<!--      <mat-option *ngFor="let option of options " [value]="option">-->
+<!--        {{option}}-->
+<!--      </mat-option>-->
+<!--    </mat-autocomplete>-->
+<!--  </mat-form-field>-->
+
+
+
+
+
+

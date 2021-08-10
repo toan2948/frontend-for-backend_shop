@@ -7,6 +7,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {NeuesProduktFormModule} from "../neues-produkt-form/neues-produkt-form.module";
 import {BildHochladenModule} from "../bild-hochladen/bild-hochladen.module";
 import {MatIconModule} from "@angular/material/icon";
+import {VariantenModule} from "../varianten/varianten.module";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import {MatIconModule} from "@angular/material/icon";
     MatTabsModule,
     NeuesProduktFormModule,
     BildHochladenModule,
-    MatIconModule
+    MatIconModule,
+    VariantenModule
   ]
 })
 export class TabBarModule { }

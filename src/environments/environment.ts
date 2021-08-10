@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: 'http://127.0.0.1:8000'
+  apiBaseUrl: 'http://127.0.0.1:8000',
+  apiBaseAdminUrl: 'http://127.0.0.1:8000/api/v2/admin/'
 };
 
 /*
