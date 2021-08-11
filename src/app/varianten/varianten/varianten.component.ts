@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TokenService} from "../../service/token.service";
 import {OptionService} from "../../service/option.service";
 import {Observable} from "rxjs";
@@ -28,7 +28,6 @@ export class VariantenComponent implements OnInit {
   optionValue_Color_Buffer: string [] = ['white', 'black'];
   sizeArray: string[] = []; // hold the values of selected sizes
   colorArray: string[] = []; // hole the values of selelcted colors
-  optionArray: string [][] = []; // hold all selected values
 
   selectedOptionValues: string[]=[]; // // hold all selected values and sent to the function ˇaddVariant()
 
@@ -50,6 +49,18 @@ export class VariantenComponent implements OnInit {
   //
   otherOption: string[] = [
   ];
+  //test variables
+  categories: Option[] =[
+  ];
+  //
+  // codeValue = new FormControl( '',[
+  //   Validators.required]);
+  //
+
+  codeValue = this.fb.control( '',[
+    Validators.required]);
+  //
+
   optionValueCtrl = new FormControl();
   sizeValueCtrl = new FormControl();
   filteredValues: Observable<string[]> | undefined;
@@ -60,79 +71,91 @@ export class VariantenComponent implements OnInit {
   @ViewChild('valueOptionInput') valueOptionInput: ElementRef<HTMLInputElement> | undefined;
   @ViewChild('valueSizeInput') valueSizeInput: ElementRef<HTMLInputElement> | undefined;
 
+  addCategory(){
+    let newOption: Option ={code:'', values: []};
+    newOption.code = this.codeValue.value;
+    this.categories.push(newOption);
+    this.codeValue.setValue(null);
+    console.log('categories', this.categories);
+  }
 
-  add(event: MatChipInputEvent): void {
+  removeCategory(cat: Option){
+    let i = this.categories.indexOf(cat);
+    this.categories.splice(i,1);
+    this.updateVariant();
+  }
+
+  updateVariant(){
+    //todo: deal with the case in which 2 empty categories are added, then add a value to one category (no variant will display)
+    //make the list of variant empty
+    this.selectedOptionValues.splice(0,this.selectedOptionValues.length);
+    let length: number = this.categories.length;
+    if(length == 1){
+      console.log('cat[0] = ', this.categories[0].values);
+      this.selectedOptionValues = this.categories[0].values.slice();
+    }
+    else if(length > 1){
+      let bufferArray: string[] =[];
+      let bufferArray2: string[] =[];
+      bufferArray = this.categories[0].values.slice();
+      for(let i: number= 0; i < (length -1); i ++){
+        bufferArray.forEach(element => {
+          this.categories[i+1].values.forEach(element2 => {
+            let k = element.concat(' ', element2);
+            console.log('new element from cross product ', k);
+            bufferArray2.push(k);
+          })
+        })
+        //make the bufferArray empty
+        // @ts-ignore
+        bufferArray.splice(0, bufferArray.length);
+        //copy the bufferArray2 to bufferArray
+        bufferArray = bufferArray2.slice();
+        //empty the this.selectedOptionValues
+        this.selectedOptionValues.splice(0,this.selectedOptionValues.length);
+        //copy the bufferArray2 to this.selectedOptionValues
+        this.selectedOptionValues = bufferArray2.slice();
+        // @ts-ignore
+        //empty the bufferArray2
+        bufferArray2.splice(0, bufferArray2.length);
+      }
+    }
+    console.log('selectedArray', this.selectedOptionValues);
+    this.addVariant();
+  }
+
+  addValue(category: Option, event: MatChipInputEvent): void {
 
     //trim() will remove all spaces in a string
     const value = (event.value || '').trim();
 
     // Add the value to our optionValue
     if (value) {
-      this.otherOption.push(value);
+      category.values.push(value);
     }
 
     // Clear the input value (clear the inputted character from the input field.
     //chipInput!, ! is a typescript syntax,
     event.chipInput!.clear();
-    console.log(this.otherOption);
+    console.log('the added cat::', category.values);
+    this.updateVariant();
   }
 
-  remove(value: string): void {
-    const index = this.otherOption.indexOf(value);
-
-    if (index >= 0) {
-      this.otherOption.splice(index, 1);
+  removeValue(category: Option, value: string): void {
+    // const index = this.sizeArray.indexOf(value);
+    console.log('code:', category);
+    //let i = this.categories.findIndex((element) => element.code == code);
+    //console.log(i, ': ', this.categories[i]);
+    console.log(this.categories);
+    let x = category.values.indexOf(value);
+    if (x >= 0) {
+      category.values.splice(x, 1);
     }
-  }
-
-  // the function is to select one value from Autocomplete
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.otherOption.push(event.option.viewValue);
-    // @ts-ignore
-    this.valueOptionInput.nativeElement.value = '';
-    this.optionValueCtrl.setValue(null);
-    //todo: remove the selected value from the allSuggestedValues
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allSuggestedValues.filter(value => value.toLowerCase().includes(filterValue));
-  }
-
-  addSize(event: MatChipInputEvent): void {
-
-    //trim() will remove all spaces in a string
-    const value = (event.value || '').trim();
-
-    // Add the value to our optionValue
-    if (value) {
-      this.sizeArray.push(value);
+    if(category.values.length == 0) {
+      let i = this.categories.findIndex((element) => element.code == category.code);
+      this.categories.splice(i, 1);
     }
-
-    // Clear the input value (clear the inputted character from the input field.
-    //chipInput!, ! is a typescript syntax,
-    event.chipInput!.clear();
-    console.log(this.sizeArray);
-  }
-
-  removeSize(value: string): void {
-    const index = this.sizeArray.indexOf(value);
-
-    if (index >= 0) {
-      this.sizeArray.splice(index, 1);
-    }
-  }
-  private _filterSize(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allSuggestedSizes.filter(value => value.toLowerCase().includes(filterValue));
-  }
-  selectedSize(event: MatAutocompleteSelectedEvent): void {
-    this.sizeArray.push(event.option.viewValue);
-    // @ts-ignore
-    this.valueSizeInput.nativeElement.value = '';
-    this.sizeValueCtrl.setValue(null);
+    this.updateVariant();
   }
 
 
@@ -150,10 +173,37 @@ export class VariantenComponent implements OnInit {
       map((value: string | null) => value ? this._filterSize(value) : this.allSuggestedSizes.slice()));
 
   }
-  myControl = new FormControl();
-  options: string[] = ['One', 'Two', 'Three'];
+  // options: string[] = ['One', 'Two', 'Three'];
   ngOnInit(): void {
     this.runGetProductOptionCodes();
+  }
+
+  // the function is to select one value from Autocomplete
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.otherOption.push(event.option.viewValue);
+    // @ts-ignore
+    this.valueOptionInput.nativeElement.value = '';
+    this.optionValueCtrl.setValue(null);
+    //todo: remove the selected value from the allSuggestedValues
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allSuggestedValues.filter(value => value.toLowerCase().includes(filterValue));
+  }
+
+
+  private _filterSize(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allSuggestedSizes.filter(value => value.toLowerCase().includes(filterValue));
+  }
+  selectedSize(event: MatAutocompleteSelectedEvent): void {
+    this.sizeArray.push(event.option.viewValue);
+    // @ts-ignore
+    this.valueSizeInput.nativeElement.value = '';
+    this.sizeValueCtrl.setValue(null);
   }
   // a simple form array
   // tForm = new FormArray([
@@ -357,7 +407,8 @@ export class VariantenComponent implements OnInit {
     )
   }
 
-  // select the values of options and then use those values for adding entries of the variant form.
+  // select the values of
+  // and then use those values for adding entries of the variant form.
   selectOptionValues(){
     this.selectedOptionValues = this.OptionValueForm.value.optionValues;
     console.log(this.selectedOptionValues);

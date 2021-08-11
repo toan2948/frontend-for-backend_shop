@@ -2,7 +2,7 @@
   <div class="flex-grow flex-row justify-items-center">
     <div class="border-2">
       <p>Passend für die Produktkategorie</p>
-<!--      <form [formGroup]="optionForm" (ngSubmit) ="selectOption()" >-->
+      <form [formGroup]="optionForm" (ngSubmit) ="selectOption()" >
         <form [formGroup]="optionForm"  >
         <!--Using multiple to select multiple value-->
         <select multiple size = 6  formControlName="option">
@@ -26,89 +26,58 @@
       <!--      end form-->
 
 
-      <div> Choose sizes:
-        <div *ngFor ="let size of optionValue_Size_Buffer">
-          <input type="checkbox" name="size" (change)="selectOptionValues2($event)" [value]="size" > {{size}}
-        </div>
-      </div>
+<!--      <div> Choose sizes:-->
+<!--        <div *ngFor ="let size of optionValue_Size_Buffer">-->
+<!--          <input type="checkbox" name="size" (change)="selectOptionValues2($event)" [value]="size" > {{size}}-->
+<!--        </div>-->
+<!--      </div>-->
 
-      <div>
-        Choose Colors:
-        <div *ngFor = "let color of optionValue_Color_Buffer; let i = index">
-          <input type="checkbox" name="color" (change)="selectOptionValues2($event)" [value]="color"> {{color}}
-        </div>
-      </div>
+<!--      <div>-->
+<!--        Choose Colors:-->
+<!--        <div *ngFor = "let color of optionValue_Color_Buffer; let i = index">-->
+<!--          <input type="checkbox" name="color" (change)="selectOptionValues2($event)" [value]="color"> {{color}}-->
+<!--        </div>-->
+<!--      </div>-->
 
-      <div>
+      <div *ngFor = "let cat of categories">
         <mat-form-field class="example-chip-list" appearance="fill">
-          <mat-label>Size Values</mat-label>
-          <mat-chip-list #chipListSize aria-label="Option Value selection">
-            <mat-chip
-              *ngFor="let size of sizeArray"
-              [selectable]="selectable"
-              [removable]="removable"
-              (removed)="removeSize(size)">
-              {{size}}
-              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-            </mat-chip>
-            <input
-              placeholder="New Size..."
-              #valueSizeInput
-              [formControl]="sizeValueCtrl"
-              [matAutocomplete]="autoSize"
-              [matChipInputAddOnBlur] = "addOnBlur"
-              [matChipInputFor]="chipListSize"
-              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-              (matChipInputTokenEnd)="addSize($event)">
-          </mat-chip-list>
-          <mat-autocomplete #autoSize="matAutocomplete" (optionSelected)="selectedSize($event)">
-            <mat-option *ngFor="let size of filteredSizeValues | async" [value]="size">
-              {{size}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-<br>
-
-        <mat-form-field class="example-chip-list" appearance="fill">
-          <mat-label>Option Values</mat-label>
+          <mat-label>{{cat.code}} values</mat-label>
           <mat-chip-list #chipList aria-label="Option Value selection">
             <mat-chip
-              *ngFor="let optionValue of otherOption"
-              [selectable]="selectable"
+              *ngFor="let value of cat.values"
               [removable]="removable"
-              (removed)="remove(optionValue)">
-              {{optionValue}}
+              (removed)="removeValue(cat, value)">
+              {{value}}
               <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
             </mat-chip>
             <input
-              placeholder="New optionValue..."
-              #valueOptionInput
-              [formControl]="optionValueCtrl"
-              [matAutocomplete]="auto"
+              placeholder="{{cat.code}}"
               [matChipInputAddOnBlur] = "addOnBlur"
               [matChipInputFor]="chipList"
               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-              (matChipInputTokenEnd)="add($event)">
+              (matChipInputTokenEnd)="addValue(cat, $event)">
           </mat-chip-list>
-          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let optionValue of filteredValues | async" [value]="optionValue">
-              {{optionValue}}
-            </mat-option>
-          </mat-autocomplete>
         </mat-form-field>
+        <button (click)="removeCategory(cat)">x</button>
       </div>
 
+      <div class="add-new-category">
+        <form (ngSubmit)="addCategory()">
+          <input placeholder="Name of Category" [formControl] ="codeValue" >
+          <button class="bg-green-500">Add a category</button>
+        </form>
+      </div>
 
       <br>
       <br>
-      <button (click)="runGetProductVariants()">Show Variants</button>
-      <br>
-      <button class="bg-blend-darken mr-1" (click)="runGetProductOptionValues()">get Option Values</button>
-      <br>
-      <button class="bg-[#0f0] mr-1" (click)="showArrayOfOptionValues()">show Option Values</button>
-      <br>
+<!--      <button (click)="runGetProductVariants()">Show Variants</button>-->
+<!--      <br>-->
+<!--      <button class="bg-blend-darken mr-1" (click)="runGetProductOptionValues()">get Option Values</button>-->
+<!--      <br>-->
+<!--      <button class="bg-[#0f0] mr-1" (click)="showArrayOfOptionValues()">show Option Values</button>-->
+<!--      <br>-->
 
-    </div>
+<!--    </div>-->
     <div class="border-2">
 <!--      variant form-->
 <!--      <form [formGroup]="variantForm" (ngSubmit) = "submitVariants()">-->
@@ -181,7 +150,6 @@
       </form>
     </div>
 
-  </div>
 
 
 <!--  **** sample of a dynamically array form-->
@@ -201,7 +169,6 @@
 <!--  </form>-->
 <!--  {{profileForm.value | json}}-->
 <!--chips: https://material.angular.io/components/chips/examples-->
-</div>
 
 <!--  <mat-form-field class="example-full-width" appearance="fill">-->
 <!--    <mat-label>Number</mat-label>-->
