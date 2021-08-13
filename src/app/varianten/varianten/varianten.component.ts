@@ -5,7 +5,7 @@ import {OptionService} from "../../service/option.service";
 import {Observable} from "rxjs";
 import ProductOptionValue from "../../Model/productOptionValue";
 import Option from "../../Model/option";
-import {buffer, last} from "rxjs/operators";
+import {buffer, last, tap} from "rxjs/operators";
 import {MatCheckbox} from "@angular/material/checkbox";
 import set = Reflect.set;
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
@@ -156,6 +156,10 @@ export class VariantenComponent implements OnInit {
       this.categories.splice(i, 1);
     }
     this.updateVariant();
+  }
+
+  submitVariantArray(){
+    // this.optionService.postNewOption()
   }
 
 
@@ -407,97 +411,6 @@ export class VariantenComponent implements OnInit {
     )
   }
 
-  // select the values of
-  // and then use those values for adding entries of the variant form.
-  selectOptionValues(){
-    this.selectedOptionValues = this.OptionValueForm.value.optionValues;
-    console.log(this.selectedOptionValues);
-    this.addVariant();
-  }
-
-  // @@ used with checkboxes
-
-  //search for an array of an option depending the name of the array, then add and remove values to/from that array by
-  // the function addToOneOptionArray()
-  selectOptionValues2(event: Event){
-    //if the option is size
-    // @ts-ignore
-    if((event.target.name).substring(0,4) == "size") {
-      this.addToOneOptionArray(event, this.sizeArray);
-    }
-    //if option is color
-    // @ts-ignore
-    if((event.target.name).substring(0,4) == "colo") {
-      this.addToOneOptionArray(event, this.colorArray);
-    }
-    }
-
-    //add and remove values to/from an array of an option
-    addToOneOptionArray(event:Event, array: string[]){
-      // @ts-ignore
-      if (event.target.checked) {
-        // @ts-ignore
-        array.push(event.target.value);
-        this.renewSelectedValueArray();
-      }
-      // @ts-ignore
-      if (!event.target.checked) {
-        //return the index of the lement satisfying the condition
-        // @ts-ignore
-        let i = array.findIndex(element => element == event.target.value);
-        //*** or: let i = array.indexOf(event.target.value)
-        //remove 1 item at the position i
-        array.splice(i, 1);
-        this.renewSelectedValueArray();
-      }
-      // console.log('add/remove: ',array);
-    }
-
-    renewSelectedValueArray(){
-    //make the array empty first
-      this.selectedOptionValues.splice(0,this.selectedOptionValues.length);
-      let optionArray: string [][] = [];
-      if(this.sizeArray.length !=0 ){
-       optionArray.push(this.sizeArray);
-      }
-      if(this.colorArray.length !=0){
-        optionArray.push(this.colorArray);
-      }
-      let arrTest = ['a', 'b'];
-      optionArray.push(arrTest);
-      if(optionArray.length==1){
-        this.selectedOptionValues =  optionArray[0].slice();
-      }
-      if(optionArray.length > 1){
-        let bufferArray =[];
-        let bufferArray2: string[] =[];
-        bufferArray = optionArray[0].slice();
-      for(let i= 0; i< optionArray.length -1; i++){
-        bufferArray.forEach(element => {
-            optionArray[i+1].forEach(element2 => {
-              let k = element.concat(' ', element2);
-              console.log('new element from cross product ', k);
-              bufferArray2.push(k);
-            })
-          })
-        //make the bufferArray empty
-        // @ts-ignore
-        bufferArray.splice(0, bufferArray.length);
-        //copy the bufferArray2 to bufferArray
-        bufferArray = bufferArray2.slice();
-        //empty the this.selectedOptionValues
-        this.selectedOptionValues.splice(0,this.selectedOptionValues.length);
-        //copy the bufferArray2 to this.selectedOptionValues
-        this.selectedOptionValues = bufferArray2.slice();
-        // @ts-ignore
-        //empty the bufferArray2
-        bufferArray2.splice(0, bufferArray2.length);
-        }
-      }
-      console.log('selectedArray', this.selectedOptionValues);
-      this.addVariant();
-    }
-
 
   // runGetProductOptionValues() {
   //   for (let optionCode of this.optionCodes) {
@@ -510,10 +423,7 @@ export class VariantenComponent implements OnInit {
   //   }
   // }
   //
-  // showArrayOfOptionValues(){
-  //   console.log(this.optionValues[0][1].translations.de_DE.value);
-  //   // the abloce will result the string "M"
-  // }
+
 
   // end block @@ used with checkboxes
 
@@ -523,35 +433,52 @@ export class VariantenComponent implements OnInit {
   //@@end: use with Chip
 
   runGetProductOptionCodes(){
+
+    // todo: *** need a subcriber when using pipe()
+    //** using pipe()
+    // this.optionService.getProductOptions().pipe(
+    //   tap(res => {
+    //      console.log(res);
+    //     this.optionCodes = res.map(option => option.code );
+    //      console.log('option codes:' + this.optionCodes);
+    //   }
+    // )
+    // ). subscribe(()=> null);
+
+    // not using pipe()
     this.optionService.getProductOptions().subscribe
     (
       res => {
         console.log(res);
+        // map() is not RXJS operator, it is a javascript
         this.optionCodes = res.map(option => option.code );
-        console.log('option codes:' + this.optionCodes);
       }
-    );
+  );
+    console.log('option codes:' + this.optionCodes);
   }
   runGetProductOptionValues() {
+    // optionValues: ProductOptionValue[][] = []; //S, M, L, XL, Petite, tall, regular, white, black
     for ( let optionCode of this.optionCodes) {
       this.optionService.getProductOptionValues(optionCode).subscribe(
         res => {
           // @ts-ignore
           this.optionValues[optionCode] = res;
-           console.log('option values' + this.optionValues);
+          // @ts-ignore
+          console.log('option values' + this.optionValues);
         });
+      //** click on 'get Option values' then click on 'show option values' to display the option values
+      // see the function showArrayOfOptionValues()
     }
   }
 
   showArrayOfOptionValues(){
     // @ts-ignore
     console.log(this.optionValues['t_shirt_size'][1].translations.de_DE.value);
-    // the abloce will result the string "M"
-    console.log(this.optionValues);
+    // the console will result the string "M"
+
+    console.log('array of option values', this.optionValues);
   }
 
-  submitVariantArray(){
 
-  }
 
 }

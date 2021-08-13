@@ -43,10 +43,12 @@ export class ProductFormComponent implements OnInit {
     this.productService.getProducts().pipe(
       tap( res =>
         {
+          // take the codes from products by map()
           this.product_codes = res.map(product => product.code)
         }
       )
     ).
+      //** you need subscribe() when using pipe(), it plays the role of open the pipe
     subscribe(() =>  null
         // console.log(res)
     )
@@ -72,7 +74,7 @@ export class ProductFormComponent implements OnInit {
     console.log(localStorage.getItem('jwt_token'))
   }
 
-  collectData() {
+  postProduct() {
     console.log(this.productForm.value);
     const data =
       {
@@ -98,7 +100,7 @@ export class ProductFormComponent implements OnInit {
   runGetImages(){
       this.productService.getImages().subscribe(res => console.log(res))
   }
-
+  //runPostImage() is not used
   runPostImage(){
     console.log(this.imageForm.value);
     const data =

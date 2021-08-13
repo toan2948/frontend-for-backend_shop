@@ -1,5 +1,5 @@
 <div id="productForm" class="pl-10 py-10">
-  <form [formGroup] = "productForm" (ngSubmit) = "collectData()">
+  <form [formGroup] = "productForm" (ngSubmit) = "postProduct()">
     <label> Titel <span> &nbsp; Gibt hier den Titel deines Produktes ein</span></label>
     <br>
     <input type="text" required ngModel class="w-full" formControlName="name"><br>
@@ -14,11 +14,15 @@
     <textarea class="w-full h-48" formControlName="desc"></textarea>
     <button type="submit" >Submit</button>
   </form>
+  // display the values of the productform
+  <p> {{productForm.value | json}} </p>
 
   <button class="bg-green-500 mr-1" (click) = "runGetToken()">get Jwt token</button>
+  <br>
   <button class="bg-green-500" (click) = "runGetProducts()">get products</button>
+  <br>
   <button class="bg-green-500" (click) = "runGetImages()">get images</button>
-
+  <br>
   <button (click)="runRemoveToken()"> remove token</button>
 </div>
 

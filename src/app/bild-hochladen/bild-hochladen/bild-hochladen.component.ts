@@ -74,7 +74,7 @@ export class BildHochladenComponent implements OnInit {
   }
 
 
-    //** Christopher **
+    //** Christopher 's way of uploading the image**
 
     // uploadFile(files: any){
 
