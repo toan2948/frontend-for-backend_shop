@@ -1,17 +1,13 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TokenService} from "../../service/token.service";
 import {OptionService} from "../../service/option.service";
-import {Observable} from "rxjs";
 import ProductOptionValue from "../../Model/productOptionValue";
 import Option from "../../Model/option";
-import {buffer, last, tap} from "rxjs/operators";
-import {MatCheckbox} from "@angular/material/checkbox";
-import set = Reflect.set;
+
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
-import {map, startWith} from 'rxjs/operators';
-import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+
 
 @Component({
   selector: 'app-varianten',
@@ -24,10 +20,7 @@ export class VariantenComponent implements OnInit {
   optionCodes: string[] = []; // t_shirt_size,dress_size,dress_height,jeans_size,t_shirt_color
   // ProductOptionValue is a typescript model
   optionValues: ProductOptionValue[][] = []; //S, M, L, XL, Petite, tall, regular, white, black
-  optionValue_Size_Buffer: string[] = ['X','S','M']; //S, M, L, XL,
-  optionValue_Color_Buffer: string [] = ['white', 'black'];
   sizeArray: string[] = []; // hold the values of selected sizes
-  colorArray: string[] = []; // hole the values of selelcted colors
 
   selectedOptionValues: string[]=[]; // // hold all selected values and sent to the function ˇaddVariant()
 
@@ -36,7 +29,6 @@ export class VariantenComponent implements OnInit {
   checkStatusCheckboxSalePreis: boolean []=[];
   disableStatusCheckboxPreis: boolean [] = [];
   disableStatusCheckboxSalePreis: boolean [] = [];
-  // test: FormControl = this.variantArrayForm.get('selectedOptionValueControl2') as FormControl;
   preis: number [] = [];
   salePreis: number [] = [];
 
@@ -46,9 +38,7 @@ export class VariantenComponent implements OnInit {
   removable = true;
   addOnBlur = false;
   readonly separatorKeysCodes = [ENTER] as const;
-  //
-  otherOption: string[] = [
-  ];
+
   //test variables
   categories: Option[] =[
   ];
@@ -61,15 +51,6 @@ export class VariantenComponent implements OnInit {
     Validators.required]);
   //
 
-  optionValueCtrl = new FormControl();
-  sizeValueCtrl = new FormControl();
-  filteredValues: Observable<string[]> | undefined;
-  filteredSizeValues: Observable<string[]> | undefined;
-  allSuggestedValues: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
-  allSuggestedSizes: string[] = ['XXS','XS','S', 'M','L', 'XL', 'XXL'];
-  allSuggestedColor: string[] = ['red', 'orange', 'yellow', 'chartreuse green','spring green','cyan', 'azure', 'blue', 'violet', 'magenta', 'rose'];
-  @ViewChild('valueOptionInput') valueOptionInput: ElementRef<HTMLInputElement> | undefined;
-  @ViewChild('valueSizeInput') valueSizeInput: ElementRef<HTMLInputElement> | undefined;
 
   addCategory(){
     let newOption: Option ={code:'', values: []};
@@ -142,7 +123,6 @@ export class VariantenComponent implements OnInit {
   }
 
   removeValue(category: Option, value: string): void {
-    // const index = this.sizeArray.indexOf(value);
     console.log('code:', category);
     //let i = this.categories.findIndex((element) => element.code == code);
     //console.log(i, ': ', this.categories[i]);
@@ -168,97 +148,14 @@ export class VariantenComponent implements OnInit {
     private optionService: OptionService,
     private fb: FormBuilder,
   ) {
-    this.filteredValues = this.optionValueCtrl.valueChanges.pipe(
-      startWith(null),
-      map((value: string | null) => value ? this._filter(value) : this.allSuggestedValues.slice()));
-
-    this.filteredSizeValues = this.sizeValueCtrl.valueChanges.pipe(
-      startWith(null),
-      map((value: string | null) => value ? this._filterSize(value) : this.allSuggestedSizes.slice()));
 
   }
-  // options: string[] = ['One', 'Two', 'Three'];
   ngOnInit(): void {
     this.runGetProductOptionCodes();
   }
-
-  // the function is to select one value from Autocomplete
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.otherOption.push(event.option.viewValue);
-    // @ts-ignore
-    this.valueOptionInput.nativeElement.value = '';
-    this.optionValueCtrl.setValue(null);
-    //todo: remove the selected value from the allSuggestedValues
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allSuggestedValues.filter(value => value.toLowerCase().includes(filterValue));
-  }
-
-
-  private _filterSize(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allSuggestedSizes.filter(value => value.toLowerCase().includes(filterValue));
-  }
-  selectedSize(event: MatAutocompleteSelectedEvent): void {
-    this.sizeArray.push(event.option.viewValue);
-    // @ts-ignore
-    this.valueSizeInput.nativeElement.value = '';
-    this.sizeValueCtrl.setValue(null);
-  }
-  // a simple form array
-  // tForm = new FormArray([
-  //   new FormControl('ar'),
-  //   new FormControl('2')
-  // ]);
-
-  // profileForm = this.fb.group({
-  //   email: [''],
-  //   userName: new FormArray([
-  //    this.fb.group({
-  //      name:[''],
-  //      age:['']
-  //    })
-  //   ])
-  // });
-
-  //
-  // get getUserName() {
-  //   return this.profileForm.get('userName') as FormArray;
-  // }
-  //
-  // addUsername() {
-  //   let userNameArr = this.profileForm.get('userName') as FormArray;
-  //   let newUserNAme = this.fb.group({
-  //     name: [''],
-  //     age: ['']
-  //   });
-  //   userNameArr.push(newUserNAme);
-  //   // this.getUserName.push(this.fb.group({}));
-  // }
-  //
-  // removeUserName(i: number){
-  //   let userNameArr = this.profileForm.get('userName') as FormArray;
-  //   userNameArr.removeAt(i);
-  // }
-
-
   optionForm = new FormGroup({
     option: new FormControl()
   });
-
-  OptionValueForm = new FormGroup({
-    optionValues: new FormControl()
-  });
-
-  // variantForm = new FormGroup({
-  //   selectedOptionValueControl: new FormControl(''),
-  //   preis: new FormControl(),
-  //   sale_preis: new FormControl()
-  // });
 
   variantArrayForm = this.fb.group({
     variant: this.fb.array([
@@ -373,7 +270,6 @@ export class VariantenComponent implements OnInit {
       console.log(event.target.checked, variantArr.at(i)['controls'].sale_preis2.value);
     }
   }
-
   getPreis(event: Event, i: number){
        let variantArr = this.variantArrayForm.get('variant') as FormArray;
       if(this.checkStatusCheckboxPreis[i]){
@@ -381,7 +277,6 @@ export class VariantenComponent implements OnInit {
         variantArr.at(i).patchValue({preis2: event.target.value});
       }
   }
-
   getSalePreis(event: Event, i: number){
     let variantArr = this.variantArrayForm.get('variant') as FormArray;
     if(this.checkStatusCheckboxSalePreis[i]){
@@ -389,9 +284,6 @@ export class VariantenComponent implements OnInit {
       variantArr.at(i).patchValue({sale_preis2: event.target.value});
     }
   }
-
-
-
   runGetProductVariants(){
       this.optionService.getProductVariants().subscribe(
         res => {
@@ -399,53 +291,8 @@ export class VariantenComponent implements OnInit {
     }
       );
   }
-  // select an option and then assign its values to a buffer, ths buffer will be shown in the option values area.
-  selectOption(){
-    console.log(this.optionForm.value);
-    this.optionService.getProductOptionValues(this.optionForm.value.option).subscribe(
-      res => {
-        console.log(res);
-        this.optionValue_Size_Buffer = res.map((option: { translations: { de_DE: { value: string; }; }; }) => option.translations.de_DE.value);
-      console.log('optionValue_Size_Buffer: '+ this.optionValue_Size_Buffer);
-      }
-    )
-  }
-
-
-  // runGetProductOptionValues() {
-  //   for (let optionCode of this.optionCodes) {
-  //     this.optionService.getProductOptionValues(optionCode).subscribe(
-  //       res => {
-  //         // *** use push to create a multi-dimensions array
-  //         this.optionValues.push(res);
-  //          console.log(this.optionValues);
-  //       });
-  //   }
-  // }
-  //
-
-
-  // end block @@ used with checkboxes
-
-  //@@ used with Chips
-
-
-  //@@end: use with Chip
 
   runGetProductOptionCodes(){
-
-    // todo: *** need a subcriber when using pipe()
-    //** using pipe()
-    // this.optionService.getProductOptions().pipe(
-    //   tap(res => {
-    //      console.log(res);
-    //     this.optionCodes = res.map(option => option.code );
-    //      console.log('option codes:' + this.optionCodes);
-    //   }
-    // )
-    // ). subscribe(()=> null);
-
-    // not using pipe()
     this.optionService.getProductOptions().subscribe
     (
       res => {
@@ -478,7 +325,5 @@ export class VariantenComponent implements OnInit {
 
     console.log('array of option values', this.optionValues);
   }
-
-
 
 }
