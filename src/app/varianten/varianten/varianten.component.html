@@ -1,5 +1,6 @@
 <div class="w-full">
   <div class="flex-grow flex-row justify-items-center">
+    <div class="border-2">
       <div *ngFor = "let cat of categories">
         <mat-form-field class="example-chip-list" appearance="fill">
           <mat-label>{{cat.code}} values</mat-label>
@@ -37,6 +38,7 @@
       <br>
       <button class="bg-[#0f0] mr-1" (click)="showArrayOfOptionValues()">show Option Values</button>
       <br>
+    </div>
 
     <div class="border-2">
       <!--      variant form-->
@@ -51,7 +53,6 @@
           </tr>
           </thead>
           <tbody>
-<!--          <tr *ngFor ="let selectedSizeValue of selectedOptionValues; let y = index" >-->
           <tr>
           <div id="array_variant" formArrayName="variant" >
             <div *ngFor="let variant of variant.controls; let i= index" >
@@ -66,8 +67,6 @@
 <!--                  [ngModelOptions]="{standalone: true} help to connect the template and component-->
                   <input type="radio" [name]="'preis' + i" [disabled]="disableStatusCheckboxPreis[i]" [checked]="checkStatusCheckboxPreis[i]" (change)="changeCheckboxPreis($event, i)" [value]="preis[i]" > <input type="text" [(ngModel)] = "preis[i]" [ngModelOptions]="{standalone: true}" (keyup)="getPreis($event, i)"   />
                   <input type="radio" [name]="'preis' + i" [disabled]="disableStatusCheckboxSalePreis[i]" [checked]="checkStatusCheckboxSalePreis[i]" (change)="changeCheckboxSalePreis($event, i)" [value]="salePreis[i]" > <input [(ngModel)] = "salePreis[i]" [ngModelOptions]="{standalone: true}" type="text" (keyup)="getSalePreis($event, i)"/>
-<!--                  <th><input type="radio" [checked]="checkStatusCheckboxPreis[i]" name="'preis'+{{i}}" value="{{preis2.value}}" (change)="changeRadioButtonPreis($event, i)" ><input type="text" #preis2 /></th>-->
-<!--                  <th><input type="radio" [checked]="checkStatusCheckboxSalePreis[i]" name="'sale_preis'+{{i}}" value="{{sale_preis2.value}}"  ><input type="text" #sale_preis2 formControlName ="sale_preis2"/></th>-->
                 </div>
               </div>
             </div>
