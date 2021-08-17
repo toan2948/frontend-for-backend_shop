@@ -7,6 +7,8 @@ import Option from "../../Model/option";
 
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
+import {Subject} from "rxjs";
+import {TestBehaviorSubjectService} from "../../service/test-behavior-subject.service";
 
 
 @Component({
@@ -139,7 +141,7 @@ export class VariantenComponent implements OnInit {
   }
 
   submitVariantArray(){
-    // this.optionService.postNewOption()
+
   }
 
 
@@ -147,12 +149,18 @@ export class VariantenComponent implements OnInit {
     private tokenService: TokenService,
     private optionService: OptionService,
     private fb: FormBuilder,
+    private productTransferSubject: TestBehaviorSubjectService
   ) {
 
   }
   ngOnInit(): void {
     this.runGetProductOptionCodes();
+    this.productTransferSubject.productIdSubject.subscribe(d => this.productId = d);
+    console.log(this.productId);
   }
+  //take the productId
+  productId: number | undefined;
+  //
   optionForm = new FormGroup({
     option: new FormControl()
   });

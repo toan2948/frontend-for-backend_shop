@@ -1,6 +1,8 @@
 <div class="w-full">
   <div class="flex-grow flex-row justify-items-center">
     <div class="border-2">
+      <p>productId:{{productId}} </p>
+      <p>Create categories for the product</p>
       <div *ngFor = "let cat of categories">
         <mat-form-field class="example-chip-list" appearance="fill">
           <mat-label>{{cat.code}} values</mat-label>
@@ -60,13 +62,32 @@
               <div [formGroupName] ="i">
                 <th>
                   <section>
-                    <input type="checkbox" [checked]="flagCheckbox[i]" (change)="changeCheckboxOption($event, i)" [value] = "selectedOptionValues[i]" > {{selectedOptionValues[i]}}
+                    <input type="checkbox"
+                           [checked]="flagCheckbox[i]"
+                           (change)="changeCheckboxOption($event, i)"
+                           [value] = "selectedOptionValues[i]" >
+                    {{selectedOptionValues[i]}}
                   </section>
                 </th>
                 <div *ngIf ="flagCheckbox[i]">
 <!--                  [ngModelOptions]="{standalone: true} help to connect the template and component-->
-                  <input type="radio" [name]="'preis' + i" [disabled]="disableStatusCheckboxPreis[i]" [checked]="checkStatusCheckboxPreis[i]" (change)="changeCheckboxPreis($event, i)" [value]="preis[i]" > <input type="text" [(ngModel)] = "preis[i]" [ngModelOptions]="{standalone: true}" (keyup)="getPreis($event, i)"   />
-                  <input type="radio" [name]="'preis' + i" [disabled]="disableStatusCheckboxSalePreis[i]" [checked]="checkStatusCheckboxSalePreis[i]" (change)="changeCheckboxSalePreis($event, i)" [value]="salePreis[i]" > <input [(ngModel)] = "salePreis[i]" [ngModelOptions]="{standalone: true}" type="text" (keyup)="getSalePreis($event, i)"/>
+                  <input type="radio" [name]="'preis' + i"
+                         [disabled]="disableStatusCheckboxPreis[i]"
+                         [checked]="checkStatusCheckboxPreis[i]"
+                         (change)="changeCheckboxPreis($event, i)"
+                         [value]="preis[i]" >
+                      <input type="text"
+                             [(ngModel)] = "preis[i]"
+                             [ngModelOptions]="{standalone: true}"
+                             (keyup)="getPreis($event, i)"   />
+                  <input type="radio" [name]="'preis' + i"
+                         [disabled]="disableStatusCheckboxSalePreis[i]"
+                         [checked]="checkStatusCheckboxSalePreis[i]"
+                         (change)="changeCheckboxSalePreis($event, i)"
+                         [value]="salePreis[i]" >
+                      <input [(ngModel)] = "salePreis[i]"
+                             [ngModelOptions]="{standalone: true}" type="text"
+                             (keyup)="getSalePreis($event, i)"/>
                 </div>
               </div>
             </div>

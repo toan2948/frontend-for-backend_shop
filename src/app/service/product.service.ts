@@ -14,14 +14,20 @@ export class ProductService {
 
   constructor( private http: HttpClient ) { }
 
+   httpHeaders = new HttpHeaders({
+    'Content-Type': 'application/json',
+    accept: 'application/json'
+  });
+
   getProducts(): Observable<Product[]>{
-    const httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      accept: 'application/json'
-    });
-    return this.http.get<Product[]>(this.urlProduct, {headers: httpHeaders});
+
+    return this.http.get<Product[]>(this.urlProduct, {headers: this.httpHeaders});
     // <- the return type of the get method is important, in this case the return type is 'product'
     // return this.http.get(this.urlProduct);
+  }
+
+  getSingleProduct(code: string) {
+    return this.http.get<Product>(this.urlProduct + '/' + code, {headers: this.httpHeaders});
   }
 
 

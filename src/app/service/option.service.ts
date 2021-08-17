@@ -35,7 +35,7 @@ export class OptionService {
   getProductOptionValues(codeForUrl: string): Observable<any> {
     this.getUrlProductOptionCodeValue(codeForUrl);
     return this.http.get<any>(this.urlProductOptionCodeValue, {headers: this.httpHeaders});
-    //result example:
+    //@@ result example:
     // {
     //   "@context": "/api/v2/contexts/ProductOptionValue",
     //   "@id": "/api/v2/admin/product-options/t_shirt_size/values",

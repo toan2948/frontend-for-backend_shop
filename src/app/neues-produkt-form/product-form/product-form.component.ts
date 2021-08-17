@@ -7,6 +7,7 @@ import {map, tap} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import Product from "../../Model/product";
+import {TestBehaviorSubjectService} from "../../service/test-behavior-subject.service";
 
 @Component({
   selector: 'app-product-form',
@@ -29,14 +30,27 @@ export class ProductFormComponent implements OnInit {
     id: new FormControl('')
   });
 
+  //productId of the newly created product, it will be transfered to the varianten Component
+  productId: number | undefined;
 
 
-  constructor(private tokenService: TokenService, private productService: ProductService, private http: HttpClient) { }
+
+  constructor(
+    private tokenService: TokenService,
+    private productService: ProductService,
+    private http: HttpClient,
+    private productTransferSubject: TestBehaviorSubjectService
+  )
+  { }
+
   urlProduct = environment.apiBaseUrl + '/api/v2/admin/products';
+
 
   ngOnInit(): void {
     this.runGetToken();
     this.getProductCodes();
+    this.productTransferSubject.productIdSubject.subscribe(d => this.productId = d);
+
   }
 
   getProductCodes(){
@@ -83,9 +97,10 @@ export class ProductFormComponent implements OnInit {
         "translations": {
           "en_US": {
             "name": this.productForm.value.desc,
-            "slug": this.productForm.value.preis,
+            "slug": this.productForm.value.desc,
             "locale": "en_US"
           }
+          // *** name and slug are stored in the table 'sylius_product_translation'
         },
         // "images": [
         //   "/api/v2/admin/product-images/2"
@@ -93,9 +108,27 @@ export class ProductFormComponent implements OnInit {
       };
 
      // const body = JSON.stringify(data);
-    this.productService.postProduct(data).subscribe(
-      res => console.log(res),
-      );
+    this.productService.postProduct(data).pipe(
+      tap (res => {
+        console.log(res);
+        this.runGetSingleProduct(this.productForm.value.name);
+          this.productTransferSubject.sendProductId(this.productId);
+        }
+      )
+    ).subscribe(() => null);
+
+
+  }
+
+  runGetSingleProduct(code: string){
+    this.productService.getSingleProduct(code).subscribe(
+      res => {
+        console.log('new product', res);
+        this.productId = res.id;
+        console.log(this.productId);
+      }
+    );
+    this.productTransferSubject.sendProductId(this.productId);
   }
   runGetImages(){
       this.productService.getImages().subscribe(res => console.log(res))
