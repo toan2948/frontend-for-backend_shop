@@ -3,6 +3,8 @@ import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import Option from "../Model/option";
+import Option2 from "../Model/option2";
+import OptionValues from "../Model/optionValues";
 
 @Injectable({
   providedIn: 'root'
@@ -33,8 +35,9 @@ export class OptionService {
   }
 
   getProductOptionValues(codeForUrl: string): Observable<any> {
+    //ex of codeForURL: t_shirt_size
     this.getUrlProductOptionCodeValue(codeForUrl);
-    return this.http.get<any>(this.urlProductOptionCodeValue, {headers: this.httpHeaders});
+    return this.http.get<OptionValues[]>(this.urlProductOptionCodeValue, {headers: this.httpHeaders});
     //@@ result example:
     // {
     //   "@context": "/api/v2/contexts/ProductOptionValue",
@@ -81,8 +84,13 @@ export class OptionService {
     return this.http.get(this.urlProductVariant, {headers: this.httpHeaders});
   }
 
-  postNewOption(data: Option){
+  postNewOption(data: Option2){
     return this.http.post<Option>(this.urlProductOption,data, {headers: this.httpHeaders});
+  }
+
+  //update the values of an existing option
+  putExistingOption(code: string, data: Option2){
+      return this.http.put(`${this.urlProductOption}/${code}`, data, {headers: this.httpHeaders} )
   }
 
 

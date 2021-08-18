@@ -8,10 +8,10 @@
           <mat-label>{{cat.code}} values</mat-label>
           <mat-chip-list #chipList aria-label="Option Value selection">
             <mat-chip
-              *ngFor="let value of cat.values"
+              *ngFor="let v of cat.values"
               [removable]="removable"
-              (removed)="removeValue(cat, value)">
-              {{value}}
+              (removed)="removeValue(cat, v)">
+              {{v.translations.de_DE.value}}
               <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
             </mat-chip>
             <input
@@ -65,8 +65,8 @@
                     <input type="checkbox"
                            [checked]="flagCheckbox[i]"
                            (change)="changeCheckboxOption($event, i)"
-                           [value] = "selectedOptionValues[i]" >
-                    {{selectedOptionValues[i]}}
+                           [value] = "selectedOptionValues[i].translations.de_DE.value" >
+                    {{selectedOptionValues[i].translations.de_DE.value}}
                   </section>
                 </th>
                 <div *ngIf ="flagCheckbox[i]">
@@ -100,6 +100,9 @@
         <button class="bg-[rgba(123,123,123,0.5)]" >save Variants</button>
       </form>
     </div>
+
+  </div>
+</div>
 
 
 
