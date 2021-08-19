@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {TokenService} from "../../service/token.service";
 import {ProductService} from "../../service/product.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
@@ -7,7 +7,6 @@ import {map, tap} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import Product from "../../Model/product";
-import {TestBehaviorSubjectService} from "../../service/test-behavior-subject.service";
 import Taxon from "../../Model/taxon";
 import {OptionService} from "../../service/option.service";
 
@@ -32,8 +31,8 @@ export class ProductFormComponent implements OnInit {
     id: new FormControl('')
   });
 
-  //productId of the newly created product, it will be transfered to the varianten Component
-  productId: number | undefined;
+  //the newly created product, it will be transfered to the varianten Component
+  createdProduct: Product | undefined;
 
 
 
@@ -41,20 +40,21 @@ export class ProductFormComponent implements OnInit {
     private tokenService: TokenService,
     private productService: ProductService,
     private http: HttpClient,
-    private productTransferSubject: TestBehaviorSubjectService,
     private optionService: OptionService
   )
   { }
-
-  urlProduct = environment.apiBaseUrl + '/api/v2/admin/products';
 
 
   ngOnInit(): void {
     this.runGetToken();
     this.getProductCodes();
-    this.productTransferSubject.productIdSubject.subscribe(d => this.productId = d);
     this.runGetTaxons();
 
+  }
+  @Output() productCreatedEvent = new EventEmitter<Product>();
+
+  sendCreatedProduct(createdProduct: Product){
+      this.productCreatedEvent.emit(createdProduct);
   }
 
   getProductCodes(){
@@ -116,7 +116,6 @@ export class ProductFormComponent implements OnInit {
       tap (res => {
         console.log(res);
         this.runGetSingleProduct(this.productForm.value.name);
-          this.productTransferSubject.sendProductId(this.productId);
         }
       )
     ).subscribe(() => null);
@@ -127,11 +126,11 @@ export class ProductFormComponent implements OnInit {
     this.productService.getSingleProduct(code).subscribe(
       res => {
         console.log('new product', res);
-        this.productId = res.id;
-        console.log(this.productId);
+        this.createdProduct = res;
+        console.log(this.createdProduct);
+        this.sendCreatedProduct(this.createdProduct)
       }
     );
-    this.productTransferSubject.sendProductId(this.productId);
   }
   runGetImages(){
       this.productService.getImages().subscribe(res => console.log(res))

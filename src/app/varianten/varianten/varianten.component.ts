@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TokenService} from "../../service/token.service";
 import {OptionService} from "../../service/option.service";
@@ -6,11 +6,12 @@ import {OptionService} from "../../service/option.service";
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {Subject} from "rxjs";
-import {TestBehaviorSubjectService} from "../../service/test-behavior-subject.service";
 import Option from "../../Model/option";
 import OptionValues from "../../Model/optionValues";
 import {map, tap} from "rxjs/operators";
 import Taxon from "../../Model/taxon";
+import Product from "../../Model/product";
+import Image from "../../Model/image";
 
 
 @Component({
@@ -42,7 +43,7 @@ export class VariantenComponent implements OnInit {
   addOnBlur = false;
   readonly separatorKeysCodes = [ENTER] as const;
 
-  //test variables
+  //categories (= options), ex: size, color
   categories: Option[] =[
   ];
   //
@@ -52,9 +53,7 @@ export class VariantenComponent implements OnInit {
 
   codeValue = this.fb.control( '',[
     Validators.required]);
-  //
-  //take the productId
-  productId: number | undefined;
+
   //
   optionForm = new FormGroup({
     option: new FormControl()
@@ -66,6 +65,27 @@ export class VariantenComponent implements OnInit {
   });
 
 
+  constructor(
+    private tokenService: TokenService,
+    private optionService: OptionService,
+    private fb: FormBuilder,
+  ) {
+
+  }
+  ngOnInit(): void {
+    this.runGetProductOptionCodes();
+  }
+
+  @Input() receivedProduct: Product = {code: '',
+    id: 0,
+    mainTaxon: '',
+    translations: {},
+    image: []};
+
+  checkInput(){
+    console.log('received from parents', this.receivedProduct)
+  }
+
   addCategory(){
     let newOption: Option ={code:'', values: [], translations: {de_DE: {name:'', locale:''}} };
     newOption.code = this.codeValue.value;
@@ -73,13 +93,11 @@ export class VariantenComponent implements OnInit {
     this.codeValue.setValue(null);
     console.log('categories', this.categories);
   }
-
   removeCategory(cat: Option){
     let i = this.categories.indexOf(cat);
     this.categories.splice(i,1);
     this.updateVariant();
   }
-
   updateVariant(){
     //todo: deal with the case in which 2 empty categories are added, then add a value to one category (no variant will display)
     //make the list of variant empty
@@ -129,7 +147,7 @@ export class VariantenComponent implements OnInit {
                 value: '',
                 locale: ''
               }
-          }};
+            }};
 
           this.selectedOptionValues[i].translations.de_DE.value = bufferArray2[i];
         }
@@ -140,7 +158,6 @@ export class VariantenComponent implements OnInit {
     console.log('selectedArray', this.selectedOptionValues);
     this.addVariant();
   }
-
   // add values to a category
   addValue(category: Option, event: MatChipInputEvent): void {
 
@@ -160,7 +177,6 @@ export class VariantenComponent implements OnInit {
     console.log('the added cat::', category.values);
     this.updateVariant();
   }
-
   removeValue(category: Option, value: OptionValues): void {
     console.log('code:', category);
     //let i = this.categories.findIndex((element) => element.code == code);
@@ -177,21 +193,6 @@ export class VariantenComponent implements OnInit {
     }
     this.updateVariant();
   }
-
-  constructor(
-    private tokenService: TokenService,
-    private optionService: OptionService,
-    private fb: FormBuilder,
-    private productTransferSubject: TestBehaviorSubjectService
-  ) {
-
-  }
-  ngOnInit(): void {
-    this.runGetProductOptionCodes();
-    this.productTransferSubject.productIdSubject.subscribe(d => this.productId = d);
-    console.log(this.productId);
-  }
-
 
   // get variant for the .html file
   get variant() {

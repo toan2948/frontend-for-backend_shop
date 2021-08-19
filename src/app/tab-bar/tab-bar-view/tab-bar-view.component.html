@@ -1,10 +1,10 @@
 <mat-tab-group>
   <mat-tab label="Preis & Varianten">
-      <app-varianten></app-varianten>
+      <app-varianten [receivedProduct]="receivedProduct" ></app-varianten>
   </mat-tab>
   <mat-tab label="Produkt">
     <div class="flex flex-row justify-items-center">
-      <app-product-form class="w-full"></app-product-form>
+      <app-product-form class="w-full" (productCreatedEvent)="receiveProduct($event)"></app-product-form>
       <app-bild-hochladen></app-bild-hochladen>
     </div>
   </mat-tab>
