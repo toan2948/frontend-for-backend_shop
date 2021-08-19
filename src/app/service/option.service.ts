@@ -3,8 +3,8 @@ import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import Option from "../Model/option";
-import Option2 from "../Model/option2";
 import OptionValues from "../Model/optionValues";
+import Taxon from "../Model/taxon";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,7 @@ export class OptionService {
   urlProductOption = environment.apiBaseAdminUrl + 'product-options';
   urlProductOptionCodeValue = '';
   urlProductVariant = environment.apiBaseAdminUrl + 'product-variants';
+  urlProductTaxon = environment.apiBaseAdminUrl + 'taxons';
 
 
   constructor(private http: HttpClient) { }
@@ -84,14 +85,17 @@ export class OptionService {
     return this.http.get(this.urlProductVariant, {headers: this.httpHeaders});
   }
 
-  postNewOption(data: Option2){
+  postNewOption(data: Option){
     return this.http.post<Option>(this.urlProductOption,data, {headers: this.httpHeaders});
   }
 
   //update the values of an existing option
-  putExistingOption(code: string, data: Option2){
+  putExistingOption(code: string, data: Option){
       return this.http.put(`${this.urlProductOption}/${code}`, data, {headers: this.httpHeaders} )
   }
 
+  getTaxons(): Observable<Taxon[]>{
+    return this.http.get<Taxon[]>(`${this.urlProductTaxon}`, {headers: this.httpHeaders})
+  }
 
 }

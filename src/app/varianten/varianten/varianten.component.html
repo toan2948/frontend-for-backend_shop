@@ -1,6 +1,7 @@
 <div class="w-full">
-  <div class="flex-grow flex-row justify-items-center">
-    <div class="border-2">
+  <div class="flex flex-wrap justify-items-center">
+<!--    lg:w-1/2 w- full: when screen is large, the container occupies halb of screen, and occupies full when screen is small-->
+    <div class="border-2 w-full lg:w-1/2">
       <p>productId:{{productId}} </p>
       <p>Create categories for the product</p>
       <div *ngFor = "let cat of categories">
@@ -42,7 +43,7 @@
       <br>
     </div>
 
-    <div class="border-2">
+    <div class="border-2 w-full lg:w-1/2">
       <!--      variant form-->
       <form [formGroup]="variantArrayForm" (ngSubmit) = "submitVariantArray()">
         <table>

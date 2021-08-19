@@ -12,6 +12,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ProductInterceptor} from "./product.interceptor";
 import {ReactiveFormsModule} from "@angular/forms";
 import {TestBehaviorSubjectService} from "./service/test-behavior-subject.service";
+import {HashLocationStrategy, LocationStrategy, PathLocationStrategy} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import {TestBehaviorSubjectService} from "./service/test-behavior-subject.servic
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ProductInterceptor, multi: true },
-    TestBehaviorSubjectService
+    TestBehaviorSubjectService,
   ],
   bootstrap: [AppComponent]
 })

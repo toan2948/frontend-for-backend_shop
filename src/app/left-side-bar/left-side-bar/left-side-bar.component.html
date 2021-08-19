@@ -1,15 +1,62 @@
 <div class="w-227px h-1024px border">
   <div class="pb-40 pt-10 pl-4">
-    <p><span class="material-icons">shopping_bag</span>Shop</p>
-    <p><mat-icon aria-hidden="false" aria-label="Example home icon">book_online</mat-icon> Bestellungen</p>
-    <p><mat-icon aria-hidden="false" aria-label="Example home icon">perm_identity</mat-icon> Kunde</p>
+    <div class="py-2 pl-12 relative">
+      <div class="absolute left-0 ml-4" style="top: 50%; transform: translate(0, -50%)">
+        <span class="material-icons">shopping_bag</span>
+      </div>
+      Shop
+    </div>
+    <div class="py-3 pl-12 relative" >
+      <mat-icon class="absolute left-0 ml-4" style="top: 50%; transform: translate(0, -50%)" aria-label="Example home icon">book_online</mat-icon>
+      Bestellungen
+    </div>
+    <div class="py-3 pl-12 relative">
+      <mat-icon class="absolute left-0 ml-4" style="top: 50%; transform: translate(0, -50%)" aria-hidden="false" aria-label="Example home icon">perm_identity</mat-icon>
+      Kunde
+    </div>
   </div>
   <div class="pl-4">
-    <p><mat-icon aria-hidden="false" aria-label="Example home icon">settings</mat-icon>  Einstellung</p>
-    <p> <mat-icon>help_center</mat-icon>Help</p>
+    <div class="py-3 pl-12 relative">
+      <mat-icon class="absolute left-0 ml-4" style="top: 50%; transform: translate(0, -50%)">settings</mat-icon>  Einstellung
+    </div>
+    <div class="py-3 pl-12 relative">
+      <mat-icon class="absolute left-0 ml-4" style="top: 50%; transform: translate(0, -50%)">help_center</mat-icon>Help
+    </div>
   </div>
+
   <div class="text-center pt-4">
     <a href="#" class="text-indigo-500">Ausloggen </a>
   </div>
 </div>
+For a document that looks like this:
+
+<div class=container3>
+  <p>This paragraph…
+</div>
+
+<!--https://www.w3.org/Style/Examples/007/center.en.html-->
+<!--For a document that looks like this:-->
+
+<!--<div class=container3>-->
+<!--  <p>This paragraph…-->
+<!--</div>-->
+<!--the style sheet looks like this:-->
+
+<!--div.container3 {-->
+<!--height: 10em;-->
+<!--position: relative }              /* 1 */-->
+<!--div.container3 p {-->
+<!--margin: 0;-->
+<!--position: absolute;               /* 2 */-->
+<!--top: 50%;                         /* 3 */-->
+<!--transform: translate(0, -50%) }   /* 4 */-->
+
+<!--The essential rules are:-->
+
+<!--Make the container relatively positioned, which declares it to be a container for absolutely positioned elements.-->
+<!--Make the element itself absolutely positioned.-->
+<!--Place it halfway down the container with 'top: 50%'. (Note that 50%' here means 50% of the height of the container.)-->
+<!--Use a translation to move the element up by half its own height. (The '50%' in 'translate(0, -50%)' refers to the height of the element itself.) -->
+
+
 

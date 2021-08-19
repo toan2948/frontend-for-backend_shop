@@ -8,6 +8,8 @@ import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import Product from "../../Model/product";
 import {TestBehaviorSubjectService} from "../../service/test-behavior-subject.service";
+import Taxon from "../../Model/taxon";
+import {OptionService} from "../../service/option.service";
 
 @Component({
   selector: 'app-product-form',
@@ -17,11 +19,11 @@ import {TestBehaviorSubjectService} from "../../service/test-behavior-subject.se
 export class ProductFormComponent implements OnInit {
   products: Product[] = [];
   product_codes: string[] =[];
+  taxons: string[]= []; // t_shirts, jeans, dresses, caps
 
   productForm = new FormGroup({
     name: new FormControl(''),
     category: new FormControl(''),
-    preis: new FormControl(''),
     desc: new FormControl(''),
   });
 
@@ -39,7 +41,8 @@ export class ProductFormComponent implements OnInit {
     private tokenService: TokenService,
     private productService: ProductService,
     private http: HttpClient,
-    private productTransferSubject: TestBehaviorSubjectService
+    private productTransferSubject: TestBehaviorSubjectService,
+    private optionService: OptionService
   )
   { }
 
@@ -50,6 +53,7 @@ export class ProductFormComponent implements OnInit {
     this.runGetToken();
     this.getProductCodes();
     this.productTransferSubject.productIdSubject.subscribe(d => this.productId = d);
+    this.runGetTaxons();
 
   }
 
@@ -141,6 +145,18 @@ export class ProductFormComponent implements OnInit {
         "owner": "/api/v2/admin/products/" + this.imageForm.value.id
       };
     this.productService.postImage(data).subscribe( res => console.log(res));
+  }
+  runGetTaxons(){
+    let taxonArray: Taxon[];
+    this.optionService.getTaxons().pipe(
+      tap( res => {
+        taxonArray = res.map((element) => element);
+        this.taxons = taxonArray.map(element => element.code.replace('/api/v2/admin/taxons/', ''));
+      })
+    )
+      .subscribe(res => {
+        console.log('taxon', this.taxons)
+      });
   }
 
 }

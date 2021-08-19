@@ -2,15 +2,15 @@ import { Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TokenService} from "../../service/token.service";
 import {OptionService} from "../../service/option.service";
-import Option from "../../Model/option";
 
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {Subject} from "rxjs";
 import {TestBehaviorSubjectService} from "../../service/test-behavior-subject.service";
-import Option2 from "../../Model/option2";
+import Option from "../../Model/option";
 import OptionValues from "../../Model/optionValues";
 import {map, tap} from "rxjs/operators";
+import Taxon from "../../Model/taxon";
 
 
 @Component({
@@ -24,6 +24,7 @@ export class VariantenComponent implements OnInit {
   optionCodes: string[] = []; // t_shirt_size,dress_size,dress_height,jeans_size,t_shirt_color
   // ProductOptionValue is a typescript model
   optionValues: OptionValues[][] = []; //S, M, L, XL, Petite, tall, regular, white, black
+
   selectedOptionValues: OptionValues[]=[]; // // hold all selected values and sent to the function ˇaddVariant(). For ex: M, L, M White, ....
 
   flagCheckbox: boolean [] = [];
@@ -42,7 +43,7 @@ export class VariantenComponent implements OnInit {
   readonly separatorKeysCodes = [ENTER] as const;
 
   //test variables
-  categories: Option2[] =[
+  categories: Option[] =[
   ];
   //
   // codeValue = new FormControl( '',[
@@ -66,14 +67,14 @@ export class VariantenComponent implements OnInit {
 
 
   addCategory(){
-    let newOption: Option2 ={code:'', values: [], translations: {de_DE: {name:'', locale:''}} };
+    let newOption: Option ={code:'', values: [], translations: {de_DE: {name:'', locale:''}} };
     newOption.code = this.codeValue.value;
     this.categories.push(newOption);
     this.codeValue.setValue(null);
     console.log('categories', this.categories);
   }
 
-  removeCategory(cat: Option2){
+  removeCategory(cat: Option){
     let i = this.categories.indexOf(cat);
     this.categories.splice(i,1);
     this.updateVariant();
@@ -141,7 +142,7 @@ export class VariantenComponent implements OnInit {
   }
 
   // add values to a category
-  addValue(category: Option2, event: MatChipInputEvent): void {
+  addValue(category: Option, event: MatChipInputEvent): void {
 
     //trim() will remove all spaces in a string
     const value = (event.value || '').trim();
@@ -160,7 +161,7 @@ export class VariantenComponent implements OnInit {
     this.updateVariant();
   }
 
-  removeValue(category: Option2, value: OptionValues): void {
+  removeValue(category: Option, value: OptionValues): void {
     console.log('code:', category);
     //let i = this.categories.findIndex((element) => element.code == code);
     //console.log(i, ': ', this.categories[i]);
@@ -225,7 +226,7 @@ export class VariantenComponent implements OnInit {
 
     let lengthOfCategories = this.categories.length;
     let lengthOfFlagCheckbox = this.flagCheckbox.length;
-    let data: Option2[] = [];
+    let data: Option[] = [];
     let valuesArrays: OptionValues[][] = [];
 
     // if one variant is submitted (with the optionValues and price)
@@ -284,7 +285,7 @@ export class VariantenComponent implements OnInit {
         //check if there is any new value entered from the user
         if (codeExist) {
           let arrayOfValues: string[] = [];
-          let putOption: Option2 = {
+          let putOption: Option = {
             code: data.code.toLowerCase(),
             values: [],
             translations: {
@@ -339,8 +340,6 @@ export class VariantenComponent implements OnInit {
         }
 
     })
-
-
     //uncheck all checkboxes and radio buttons of the varianten after submitting
     for(let i = 0; i< lengthOfFlagCheckbox ; i++){
       this.flagCheckbox[i] = false;
@@ -489,7 +488,5 @@ export class VariantenComponent implements OnInit {
     console.log('array of option values', this.optionValues);
   }
 
-  runPutExistingOption(code:string, data:OptionValues){
-  }
 
 }
