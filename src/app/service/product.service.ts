@@ -5,9 +5,7 @@ import {environment} from "../../environments/environment";
 import {tap} from "rxjs/operators";
 import Product from "../Model/product";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ProductService {
   urlProduct = environment.apiBaseUrl + '/api/v2/admin/products';
   urlImage =   environment.apiBaseUrl + '/api/v2/admin/product-images';

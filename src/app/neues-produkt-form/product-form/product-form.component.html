@@ -2,7 +2,7 @@
   <form [formGroup] = "productForm" (ngSubmit) = "postProduct()">
     <label> Titel <span> &nbsp; Gibt hier den Titel deines Produktes ein</span></label>
     <br>
-    <input #name type="text" required ngModel class="w-full" formControlName="name"><br>
+    <input type="text" required ngModel class="w-full" formControlName="name"><br>
     <label>Produktkategorie <span> &nbsp; z.B. Kleidung, E-books</span></label><br>
     <select class="w-full" formControlName="category" >
 
@@ -12,18 +12,11 @@
     <textarea class="w-full h-48" formControlName="desc"></textarea>
     <button type="submit" >Submit</button>
   </form>
-  <p>run gwtSingle Product</p>
-  <button (click)="runGetSingleProduct(name.value)" class="bg-green-500">get ProductId for Variante</button>
-  // display the values of the productform
-  <p> {{productForm.value | json}} </p>
+<!--  display the values of the productform-->
+<!--  <p> {{productForm.value | json}} </p>-->
 
-  <button class="bg-green-500 mr-1" (click) = "runGetToken()">get Jwt token</button>
-  <br>
-  <button class="bg-green-500" (click) = "runGetProducts()">get products</button>
-  <br>
-  <button class="bg-green-500" (click) = "runGetImages()">get images</button>
-  <br>
-  <button (click)="runRemoveToken()"> remove token</button>
+<!--  <button class="bg-green-500 mr-1" (click) = "runGetToken()">get Jwt token</button>-->
+<!--  <br>-->
 </div>
 
 <!--<div>-->

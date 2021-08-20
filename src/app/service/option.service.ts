@@ -6,9 +6,7 @@ import Option from "../Model/option";
 import OptionValues from "../Model/optionValues";
 import Taxon from "../Model/taxon";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class OptionService {
    httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',

@@ -5,9 +5,7 @@ import {environment} from "../../environments/environment";
 import {tap} from "rxjs/operators";
 import TokenResponse from "../Model/tokenResponse";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TokenService {
   urlToken = environment.apiBaseUrl + '/api/v2/admin/authentication-token';
 

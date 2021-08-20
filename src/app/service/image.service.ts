@@ -5,9 +5,7 @@ import {Observable} from "rxjs";
 import {map, tap} from "rxjs/operators";
 import Image from "../Model/image";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ImageService {
   urlImage =   environment.apiBaseUrl + '/api/v2/admin/product-images';
 

@@ -5,13 +5,10 @@ import {OptionService} from "../../service/option.service";
 
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
-import {Subject} from "rxjs";
 import Option from "../../Model/option";
 import OptionValues from "../../Model/optionValues";
 import {map, tap} from "rxjs/operators";
-import Taxon from "../../Model/taxon";
 import Product from "../../Model/product";
-import Image from "../../Model/image";
 
 
 @Component({
@@ -81,10 +78,6 @@ export class VariantenComponent implements OnInit {
     mainTaxon: '',
     translations: {},
     image: []};
-
-  checkInput(){
-    console.log('received from parents', this.receivedProduct)
-  }
 
   addCategory(){
     let newOption: Option ={code:'', values: [], translations: {de_DE: {name:'', locale:''}} };

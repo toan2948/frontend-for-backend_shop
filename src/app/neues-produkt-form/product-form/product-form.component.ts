@@ -4,8 +4,6 @@ import {ProductService} from "../../service/product.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient, HttpEvent, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {map, tap} from "rxjs/operators";
-import {Observable} from "rxjs";
-import {environment} from "../../../environments/environment";
 import Product from "../../Model/product";
 import Taxon from "../../Model/taxon";
 import {OptionService} from "../../service/option.service";

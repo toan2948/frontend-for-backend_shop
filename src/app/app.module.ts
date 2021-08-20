@@ -11,6 +11,7 @@ import {FooterModule} from "./footer/footer.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ProductInterceptor} from "./product.interceptor";
 import {ReactiveFormsModule} from "@angular/forms";
+import {ApiModule} from "./api/api.module";
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     FooterModule,
     HttpClientModule,
     ReactiveFormsModule,
+    ApiModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ProductInterceptor, multi: true },
