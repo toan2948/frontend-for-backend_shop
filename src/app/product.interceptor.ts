@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, filter, map, switchMap, take, tap} from "rxjs/operators";
-import {TokenService} from "./service/token.service";
+import {TokenService} from "./api/service/token.service";
 import {environment} from "../environments/environment";
 
 @Injectable()

@@ -1,17 +1,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
-import {NeuesProduktFormModule} from "./neues-produkt-form/neues-produkt-form.module";
 import {LeftSideBarModule} from "./left-side-bar/left-side-bar.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {TopBarModule} from "./top-bar/top-bar.module";
-import {TabBarModule} from "./tab-bar/tab-bar.module";
-import {FooterModule} from "./footer/footer.module";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {ProductInterceptor} from "./product.interceptor";
 import {ReactiveFormsModule} from "@angular/forms";
 import {ApiModule} from "./api/api.module";
+import {ProductModule} from "./product/product.module";
 
 @NgModule({
   declarations: [
@@ -19,15 +16,13 @@ import {ApiModule} from "./api/api.module";
   ],
   imports: [
     BrowserModule,
-    NeuesProduktFormModule,
-    LeftSideBarModule,
     BrowserAnimationsModule,
-    TopBarModule,
-    TabBarModule,
-    FooterModule,
     HttpClientModule,
     ReactiveFormsModule,
-    ApiModule
+    LeftSideBarModule,
+    TopBarModule,
+    ApiModule,
+    ProductModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ProductInterceptor, multi: true },

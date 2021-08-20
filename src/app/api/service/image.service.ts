@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {environment} from "../../environments/environment";
+import {environment} from "../../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {map, tap} from "rxjs/operators";
-import Image from "../Model/image";
+import Image from "../../model/image";
 
 @Injectable()
 export class ImageService {

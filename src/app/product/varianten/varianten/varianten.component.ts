@@ -1,14 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {TokenService} from "../../service/token.service";
-import {OptionService} from "../../service/option.service";
+import {TokenService} from "../../../api/service/token.service";
+import {OptionService} from "../../../api/service/option.service";
 
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import {MatChipInputEvent} from '@angular/material/chips';
-import Option from "../../Model/option";
-import OptionValues from "../../Model/optionValues";
+import Option from "../../../model/option";
+import OptionValues from "../../../model/optionValues";
 import {map, tap} from "rxjs/operators";
-import Product from "../../Model/product";
+import Product from "../../../model/product";
 
 
 @Component({
@@ -78,6 +78,10 @@ export class VariantenComponent implements OnInit {
     mainTaxon: '',
     translations: {},
     image: []};
+
+  checkReceivingProduct(){
+    console.log('varianten received: ', this.receivedProduct);
+  }
 
   addCategory(){
     let newOption: Option ={code:'', values: [], translations: {de_DE: {name:'', locale:''}} };

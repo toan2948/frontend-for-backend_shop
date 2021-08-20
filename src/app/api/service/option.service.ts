@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {environment} from "../../environments/environment";
+import {environment} from "../../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
-import Option from "../Model/option";
-import OptionValues from "../Model/optionValues";
-import Taxon from "../Model/taxon";
+import Option from "../../model/option";
+import OptionValues from "../../model/optionValues";
+import Taxon from "../../model/taxon";
 
 @Injectable()
 export class OptionService {

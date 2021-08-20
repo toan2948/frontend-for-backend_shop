@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import Product from "../../Model/product";
+import Product from "../../model/product";
 
 @Component({
-  selector: 'app-tab-bar-view',
-  templateUrl: './tab-bar-view.component.html',
-  styleUrls: ['./tab-bar-view.component.css']
+  selector: 'app-product',
+  templateUrl: './product.component.html',
+  styleUrls: ['./product.component.css']
 })
-export class TabBarViewComponent implements OnInit {
+export class ProductComponent implements OnInit {
 
   // @ts-ignore
   receivedProduct: Product;
@@ -15,12 +15,9 @@ export class TabBarViewComponent implements OnInit {
     this.receivedProduct = product;
     console.log('the received product is ', this.receivedProduct)
   }
-
   constructor() { }
 
   ngOnInit(): void {
   }
-
-
 
 }

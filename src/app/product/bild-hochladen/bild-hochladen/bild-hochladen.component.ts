@@ -2,12 +2,12 @@ import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable, Subscription} from "rxjs";
 import {FormControl, FormGroup} from "@angular/forms";
-import {ImageService} from "../../service/image.service";
-import {TokenService} from "../../service/token.service";
+import {ImageService} from "../../../api/service/image.service";
+import {TokenService} from "../../../api/service/token.service";
 import {tap} from "rxjs/operators";
-import Product from "../../Model/product";
-import {ProductService} from "../../service/product.service";
-import {environment} from "../../../environments/environment";
+import Product from "../../../model/product";
+import {ProductService} from "../../../api/service/product.service";
+import {environment} from "../../../../environments/environment";
 import {tsCastToAny} from "@angular/compiler-cli/src/ngtsc/typecheck/src/ts_util";
 
 @Component({

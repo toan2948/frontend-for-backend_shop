@@ -1,12 +1,12 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
-import {TokenService} from "../../service/token.service";
-import {ProductService} from "../../service/product.service";
+import {TokenService} from "../../../api/service/token.service";
+import {ProductService} from "../../../api/service/product.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpClient, HttpEvent, HttpHeaders, HttpResponse} from "@angular/common/http";
 import {map, tap} from "rxjs/operators";
-import Product from "../../Model/product";
-import Taxon from "../../Model/taxon";
-import {OptionService} from "../../service/option.service";
+import Product from "../../../model/product";
+import Taxon from "../../../model/taxon";
+import {OptionService} from "../../../api/service/option.service";
 
 @Component({
   selector: 'app-product-form',
