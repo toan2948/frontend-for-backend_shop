@@ -9,6 +9,8 @@ import {ProductInterceptor} from "./product.interceptor";
 import {ReactiveFormsModule} from "@angular/forms";
 import {ApiModule} from "./api/api.module";
 import {ProductModule} from "./product/product.module";
+import { AppRoutingModule } from './app-routing.module';
+import {OrderModule} from "./order/order.module";
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import {ProductModule} from "./product/product.module";
     TopBarModule,
     ApiModule,
     ProductModule,
+    OrderModule,
+    AppRoutingModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ProductInterceptor, multi: true },

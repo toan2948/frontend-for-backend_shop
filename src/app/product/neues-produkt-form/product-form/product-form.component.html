@@ -2,14 +2,14 @@
   <form [formGroup] = "productForm" (ngSubmit) = "postProduct()">
     <label> Titel <span> &nbsp; Gibt hier den Titel deines Produktes ein</span></label>
     <br>
-    <input type="text" required ngModel class="w-full" formControlName="name"><br>
+    <input type="text" required ngModel class="w-full rounded-md" formControlName="name"><br>
     <label>Produktkategorie <span> &nbsp; z.B. Kleidung, E-books</span></label><br>
-    <select class="w-full" formControlName="category" >
+    <select class="w-full rounded-md" formControlName="category" >
 
       <option *ngFor="let taxon of taxons">{{taxon}}</option>
     </select><br>
     <label>Produktbeschreibung</label><br>
-    <textarea class="w-full h-48" formControlName="desc"></textarea>
+    <textarea class="w-full h-48 rounded-md" formControlName="desc"></textarea>
     <button type="submit" >Submit</button>
   </form>
 <!--  display the values of the productform-->

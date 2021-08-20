@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { LeftSideBarComponent } from './left-side-bar/left-side-bar.component';
 import {MatIconModule} from "@angular/material/icon";
+import {RouterModule} from "@angular/router";
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import {MatIconModule} from "@angular/material/icon";
   ],
   imports: [
     CommonModule,
-    MatIconModule
+    MatIconModule,
+    RouterModule
   ]
 })
 export class LeftSideBarModule { }
