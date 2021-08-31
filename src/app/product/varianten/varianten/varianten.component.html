@@ -1,7 +1,7 @@
-<div class="w-full overflow-y-hidden">
+<div class="w-full">
   <div class="flex flex-wrap justify-items-center">
 <!--    lg:w-1/2 w- full: when screen is large, the container occupies halb of screen, and occupies full when screen is small-->
-    <div class="bg-gray-100 w-full lg:w-1/2 min-h-screen h-auto">
+    <div class="bg-gray-100 w-full lg:w-1/2 min-h-screen">
 <!--      <button (click)="checkReceivingProduct()">check</button>-->
       <div class="mt-4 px-4">
         <p>Create categories for the product </p>
@@ -32,7 +32,7 @@
 
       <div class="mt-4">
         <form (ngSubmit)="addCategory()">
-          <input class="border-2 p-2 mx-2 rounded-md focus:ring-2 focus:ring-purple-600" placeholder="Name of Category" [formControl] ="codeValue" >
+          <input class="border-2 p-2 mx-2 rounded-md focus:ring-2 focus:ring-purple-600 shadow-xl" placeholder="Name of Category" [formControl] ="codeValue" >
           <button class="bg-green-500 rounded-md p-2 ">Add a category</button>
         </form>
       </div>
@@ -47,63 +47,67 @@
 <!--      <br>-->
     </div>
 
-    <div class="bg-gray-200 w-full lg:w-1/2 min-h-screen ">
+    <div class="bg-gray-200 w-full lg:w-1/2 min-h-screen relative ">
       <!--      variant form-->
-      <form [formGroup]="variantArrayForm" (ngSubmit) = "submitVariantArray()">
+      <div>
+        <form [formGroup]="variantArrayForm" (ngSubmit) = "submitVariantArray()">
 
-      <table class="mx-4">
+          <table class="mx-4 w-full">
 
-          <thead >
-          <tr>
-            <th>Varianten</th>
-            <th>Preis</th>
-            <th>Sale Presi</th>
-            <th>QR_code</th>
-          </tr>
-          </thead>
+            <thead >
+            <tr>
+              <th>Variants</th>
+              <th>Price</th>
+              <th>Sale Price</th>
+              <th>QR_code</th>
+            </tr>
+            </thead>
             <!--              variant here is the function variant() in varianten.component.ts-->
-          <tbody  id="array_variant" formArrayName="variant" *ngFor="let variant of variant.controls; let i= index" >
+            <tbody  id="array_variant" formArrayName="variant" *ngFor="let variant of variant.controls; let i= index" >
             <tr [formGroupName] ="i">
-                <td>
-                  <section>
-                    <input type="checkbox"
-                           [checked]="flagCheckbox[i]"
-                           (change)="changeCheckboxOption($event, i)"
-                           [value] = "selectedOptionValues[i].translations.de_DE.value" >
-                    {{selectedOptionValues[i].translations.de_DE.value}}
-                  </section>
-                </td>
-<!--                  [ngModelOptions]="{standalone: true} help to connect the template and component-->
-                  <td   *ngIf ="flagCheckbox[i]">
-                    <input type="radio" [name]="'preis' + i"
-                         [disabled]="disableStatusCheckboxPreis[i]"
-                         [checked]="checkStatusCheckboxPreis[i]"
-                         (change)="changeCheckboxPreis($event, i)"
-                         [value]="preis[i]" >
-                      <input type="text"
-                             [(ngModel)] = "preis[i]"
-                             [ngModelOptions]="{standalone: true}"
-                             (keyup)="getPreis($event, i)"   />
-                  </td>
-                <td   *ngIf ="flagCheckbox[i]">
-                  <input type="radio" [name]="'preis' + i"
-                         [disabled]="disableStatusCheckboxSalePreis[i]"
-                         [checked]="checkStatusCheckboxSalePreis[i]"
-                         (change)="changeCheckboxSalePreis($event, i)"
-                         [value]="salePreis[i]" >
-                      <input [(ngModel)] = "salePreis[i]"
-                             [ngModelOptions]="{standalone: true}" type="text"
-                             (keyup)="getSalePreis($event, i)"/>
-                  </td>
+              <td>
+                <section>
+                  <input type="checkbox"
+                         [checked]="flagCheckbox[i]"
+                         (change)="changeCheckboxOption($event, i)"
+                         [value] = "selectedOptionValues[i].translations.de_DE.value" >
+                  {{selectedOptionValues[i].translations.de_DE.value}}
+                </section>
+              </td>
+              <!--                  [ngModelOptions]="{standalone: true} help to connect the template and component-->
+              <td   *ngIf ="flagCheckbox[i]">
+                <input type="radio" [name]="'preis' + i"
+                       [disabled]="disableStatusCheckboxPreis[i]"
+                       [checked]="checkStatusCheckboxPreis[i]"
+                       (change)="changeCheckboxPreis($event, i)"
+                       [value]="preis[i]" >
+                <input type="text" class="w-4/5"
+                       [(ngModel)] = "preis[i]"
+                       [ngModelOptions]="{standalone: true}"
+                       (keyup)="getPreis($event, i)"   />
+              </td>
+              <td   *ngIf ="flagCheckbox[i]">
+                <input type="radio" [name]="'preis' + i"
+                       [disabled]="disableStatusCheckboxSalePreis[i]"
+                       [checked]="checkStatusCheckboxSalePreis[i]"
+                       (change)="changeCheckboxSalePreis($event, i)"
+                       [value]="salePreis[i]" >
+                <input [(ngModel)] = "salePreis[i]"
+                       [ngModelOptions]="{standalone: true}"
+                       type="text" class="w-4/5"
+                       (keyup)="getSalePreis($event, i)"/>
+              </td>
               <!--            <p>Form value: {{ variantArrayForm.value | json }}</p>-->
             </tr>
 
-          </tbody>
-        </table>
-      </form>
-      <button class="mx-4 bg-yellow-200 p-2 rounded-md hover:bg-opacity-75 hover:text-red-300" >Save Variants</button>
+            </tbody>
+          </table>
+        </form>
+      </div>
+      <div>
+        <button class="absolute right-0 mr-4 mt-4 bg-yellow-200 p-2 rounded-md hover:bg-opacity-75 hover:text-red-300 items-end" >Save Variants</button>
+      </div>
     </div>
-
   </div>
 </div>
 

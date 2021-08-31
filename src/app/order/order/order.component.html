@@ -1,13 +1,24 @@
-<div class="pt-4">
+<div class="m-4 p-0 h-full w-full">
   <div class="pb-3 pl-4">Order</div>
-  <div>
-    <form class=" pl-4 ml-4">
-      <input class="border-2 w-1/2 inline-block left-0 rounded-md pr-10" placeholder="Search Order-Nr, Customer, Article">
-      <div class=" w-12 inline-block relative -mr-40">
-        <button><mat-icon class="absolute ml-4" style="top: 50%; transform: translate(0, -50%)">
+  <div id = "order-filter">
+    <form class=" pl-4 ml-4 relative">
+      <input class="border-2 w-1/2 pl-4 inline-block left-0 rounded-md focus:ring-2 focus:ring-purple-600 h-12"
+             placeholder="Order-Nr, Customer-Nr ...">
+      <div id="filter-search" class="inline-block absolute -mr-40">
+        <button class="border-2 rounded-md w-12 ml-2 absolute h-12" >
+          <mat-icon>
           filter_alt
-        </mat-icon></button>
+        </mat-icon>
+        </button>
+        <button class="border-2 rounded-md w-12 ml-16 absolute h-12">
+          <mat-icon>
+            search
+          </mat-icon>
+        </button>
       </div>
     </form>
+  </div>
+  <div id="order-list">
+
   </div>
 </div>
