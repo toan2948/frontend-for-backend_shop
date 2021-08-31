@@ -1,29 +1,29 @@
 <div class="w-227px h-1024px border">
   <div class="pb-40 pt-10 pl-4">
-    <div class="py-2 pl-12 relative">
+    <div class="py-2 pl-12 relative hover:bg-red-100 cursor-pointer">
       <div class="absolute left-0 ml-4" style="top: 50%; transform: translate(0, -50%)">
         <span class="material-icons">shopping_bag</span>
       </div>
       Shop
     </div>
-    <div class="py-3 pl-12 relative" >
+    <div routerLink="/order" class="py-3 pl-12 relative hover:bg-red-100 cursor-pointer" >
       <mat-icon class="absolute left-0 ml-4" style="top: 50%; transform: translate(0, -50%)" aria-label="Example home icon">book_online</mat-icon>
-      <a routerLink="/order">Order</a>
+      <a>Order</a>
     </div>
-    <div class="py-3 pl-12 relative">
+    <div class="py-3 pl-12 relative hover:bg-red-100 cursor-pointer">
       <mat-icon class="absolute left-0 ml-4" style="top: 50%; transform: translate(0, -50%)" aria-hidden="false" aria-label="Example home icon">perm_identity</mat-icon>
       Kunde
     </div>
-    <div class="py-3 pl-12 relative">
-      <mat-icon class="absolute left-0 ml-4" style="top: 50%; transform: translate(0, -50%)" aria-hidden="false" aria-label="Example home icon">perm_identity</mat-icon>
-        <a routerLink="/product">Product</a>
+    <div routerLink="/product" class="py-3 pl-12 relative hover:bg-red-100 cursor-pointer ">
+      <mat-icon class="absolute left-0 ml-4" style="top: 50%; transform: translate(0, -50%)" aria-hidden="false" aria-label="Example home icon">add</mat-icon>
+        <a>Product</a>
     </div>
   </div>
-  <div class="pl-4">
-    <div class="py-3 pl-12 relative">
+  <div class="pl-4 cursor-pointer">
+    <div class="py-3 pl-12 relative hover:bg-green-100">
       <mat-icon class="absolute left-0 ml-4" style="top: 50%; transform: translate(0, -50%)">settings</mat-icon>  Einstellung
     </div>
-    <div class="py-3 pl-12 relative">
+    <div class="py-3 pl-12 relative hover:bg-green-100 cursor-pointer">
       <mat-icon class="absolute left-0 ml-4" style="top: 50%; transform: translate(0, -50%)">help_center</mat-icon>Help
     </div>
   </div>

@@ -1,14 +1,14 @@
-<mat-tab-group>
-  <mat-tab label="Preis & Varianten">
-    <app-varianten [receivedProduct]="receivedProduct" ></app-varianten>
-  </mat-tab>
-  <mat-tab label="Produkt">
+<mat-tab-group >
+    <mat-tab label="Preis & Varianten" >
+      <app-varianten [receivedProduct]="receivedProduct"></app-varianten>
+    </mat-tab>
+  <mat-tab label="Produkt" >
     <div class="flex flex-row justify-items-center">
       <app-product-form class="w-full" (productCreatedEvent)="receiveProduct($event)"></app-product-form>
       <app-bild-hochladen></app-bild-hochladen>
     </div>
   </mat-tab>
 </mat-tab-group>
-<div class="fixed bottom-0 w-full right-0">
+<div class="fixed bottom-0 w-full right-0 z-20">
   <app-footer-view></app-footer-view>
 </div>

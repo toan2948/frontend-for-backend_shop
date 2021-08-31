@@ -1,11 +1,13 @@
-<div class="w-full">
+<div class="w-full overflow-y-hidden">
   <div class="flex flex-wrap justify-items-center">
 <!--    lg:w-1/2 w- full: when screen is large, the container occupies halb of screen, and occupies full when screen is small-->
-    <div class="border-2 w-full lg:w-1/2">
+    <div class="bg-gray-100 w-full lg:w-1/2 min-h-screen h-auto">
 <!--      <button (click)="checkReceivingProduct()">check</button>-->
-      <p>Create categories for the product</p>
-      <div *ngFor = "let cat of categories">
-        <mat-form-field class="example-chip-list" appearance="fill">
+      <div class="mt-4 px-4">
+        <p>Create categories for the product </p>
+      </div>
+      <div *ngFor = "let cat of categories" >
+        <mat-form-field  appearance="fill">
           <mat-label>{{cat.code}} values</mat-label>
           <mat-chip-list #chipList aria-label="Option Value selection">
             <mat-chip
@@ -13,7 +15,9 @@
               [removable]="removable"
               (removed)="removeValue(cat, v)">
               {{v.translations.de_DE.value}}
-              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+              <div>
+                <mat-icon class="bg-green-500" matChipRemove *ngIf="removable">cancel</mat-icon>
+              </div>
             </mat-chip>
             <input
               placeholder="{{cat.code}}"
@@ -26,10 +30,10 @@
         <button (click)="removeCategory(cat)">x</button>
       </div>
 
-      <div class="add-new-category">
+      <div class="mt-4">
         <form (ngSubmit)="addCategory()">
-          <input placeholder="Name of Category" [formControl] ="codeValue" >
-          <button class="bg-green-500">Add a category</button>
+          <input class="border-2 p-2 mx-2 rounded-md focus:ring-2 focus:ring-purple-600" placeholder="Name of Category" [formControl] ="codeValue" >
+          <button class="bg-green-500 rounded-md p-2 ">Add a category</button>
         </form>
       </div>
 
@@ -43,11 +47,13 @@
 <!--      <br>-->
     </div>
 
-    <div class="border-2 w-full lg:w-1/2">
+    <div class="bg-gray-200 w-full lg:w-1/2 min-h-screen ">
       <!--      variant form-->
       <form [formGroup]="variantArrayForm" (ngSubmit) = "submitVariantArray()">
-        <table>
-          <thead>
+
+      <table class="mx-4">
+
+          <thead >
           <tr>
             <th>Varianten</th>
             <th>Preis</th>
@@ -55,13 +61,10 @@
             <th>QR_code</th>
           </tr>
           </thead>
-          <tbody>
-          <tr>
-          <div id="array_variant" formArrayName="variant" >
-            <div *ngFor="let variant of variant.controls; let i= index" >
-<!--              variant here is the function variant() in varianten.component.ts-->
-              <div [formGroupName] ="i">
-                <th>
+            <!--              variant here is the function variant() in varianten.component.ts-->
+          <tbody  id="array_variant" formArrayName="variant" *ngFor="let variant of variant.controls; let i= index" >
+            <tr [formGroupName] ="i">
+                <td>
                   <section>
                     <input type="checkbox"
                            [checked]="flagCheckbox[i]"
@@ -69,10 +72,10 @@
                            [value] = "selectedOptionValues[i].translations.de_DE.value" >
                     {{selectedOptionValues[i].translations.de_DE.value}}
                   </section>
-                </th>
-                <div *ngIf ="flagCheckbox[i]">
+                </td>
 <!--                  [ngModelOptions]="{standalone: true} help to connect the template and component-->
-                  <input type="radio" [name]="'preis' + i"
+                  <td   *ngIf ="flagCheckbox[i]">
+                    <input type="radio" [name]="'preis' + i"
                          [disabled]="disableStatusCheckboxPreis[i]"
                          [checked]="checkStatusCheckboxPreis[i]"
                          (change)="changeCheckboxPreis($event, i)"
@@ -81,6 +84,8 @@
                              [(ngModel)] = "preis[i]"
                              [ngModelOptions]="{standalone: true}"
                              (keyup)="getPreis($event, i)"   />
+                  </td>
+                <td   *ngIf ="flagCheckbox[i]">
                   <input type="radio" [name]="'preis' + i"
                          [disabled]="disableStatusCheckboxSalePreis[i]"
                          [checked]="checkStatusCheckboxSalePreis[i]"
@@ -89,17 +94,14 @@
                       <input [(ngModel)] = "salePreis[i]"
                              [ngModelOptions]="{standalone: true}" type="text"
                              (keyup)="getSalePreis($event, i)"/>
-                </div>
-              </div>
-            </div>
-          </div>
-            <p>Form value: {{ variantArrayForm.value | json }}</p>
+                  </td>
+              <!--            <p>Form value: {{ variantArrayForm.value | json }}</p>-->
+            </tr>
 
-          </tr>
           </tbody>
         </table>
-        <button class="bg-[rgba(123,123,123,0.5)]" >save Variants</button>
       </form>
+      <button class="mx-4 bg-yellow-200 p-2 rounded-md hover:bg-opacity-75 hover:text-red-300" >Save Variants</button>
     </div>
 
   </div>
