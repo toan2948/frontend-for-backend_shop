@@ -10,12 +10,11 @@ export class ProductService {
   urlProduct = environment.apiBaseUrl + '/api/v2/admin/products';
   urlImage =   environment.apiBaseUrl + '/api/v2/admin/product-images';
 
-  constructor( private http: HttpClient ) { }
-
    httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
     accept: 'application/json'
   });
+  constructor( private http: HttpClient ) { }
 
   getProducts(): Observable<Product[]>{
 

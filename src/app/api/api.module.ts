@@ -4,6 +4,7 @@ import {ImageService} from "./service/image.service";
 import {ProductService} from "./service/product.service";
 import {OptionService} from "./service/option.service";
 import {TokenService} from "./service/token.service";
+import {CustomerService} from "./service/customer.service";
 
 
 
@@ -16,7 +17,8 @@ import {TokenService} from "./service/token.service";
     ImageService,
     ProductService,
     OptionService,
-    TokenService
+    TokenService,
+    CustomerService
   ]
 })
 export class ApiModule { }
