@@ -1,11 +1,15 @@
-import Customer from "./customer";
+
+// this Payment is used in Order Type only
+interface Payment{
+  method: string
+}
 
 export default interface Order {
  billingAddress: Object,
   channel: string,
   customer: string,
   shippingAddress: Object,
-  payments: [],
+  payments: Payment[],
   shipments: [],
   currencyCode: string,
   localeCode: string,

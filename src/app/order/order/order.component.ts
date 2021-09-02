@@ -4,6 +4,8 @@ import Order from "../../model/order";
 import {tap} from "rxjs/operators";
 import Customer from "../../model/customer";
 import {CustomerService} from "../../api/service/customer.service";
+import {PaymentService} from "../../api/service/payment.service";
+import Payment from "../../model/payment";
 
 @Component({
   selector: 'app-order',
@@ -51,7 +53,8 @@ export class OrderComponent implements OnInit {
 
   constructor(
     private orderService: OrderService,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    private paymentService: PaymentService
   ) { }
 
   ngOnInit(): void {
@@ -78,8 +81,14 @@ export class OrderComponent implements OnInit {
           console.log('res', res)
           //get the fullname of the customer from the IRI
           res.map(res => {
-            //extract the id from IRI
+            //extract the id of the customer from IRI of the customer
             let customerId = Number(res.customer.substr(24))
+            res.payments.forEach(payment => {
+              let paymentId = Number(payment.method.substr(30))
+              this.paymentService.getPayment(paymentId).subscribe(
+                r => payment.method = r.method.name
+              )
+            })
             //get the fullname
             this.customerService.getCustomer(customerId).subscribe(
               r => res.customer = r.fullName
@@ -91,6 +100,6 @@ export class OrderComponent implements OnInit {
         }
       )
 
-    ) .subscribe(res =>  null)
+    ) .subscribe()
   }
 }
