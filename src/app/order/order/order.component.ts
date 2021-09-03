@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {OrderService} from "../../api/service/order.service";
 import Order from "../../model/order";
 import {tap} from "rxjs/operators";
@@ -6,6 +6,8 @@ import Customer from "../../model/customer";
 import {CustomerService} from "../../api/service/customer.service";
 import {PaymentService} from "../../api/service/payment.service";
 import Payment from "../../model/payment";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatTableDataSource} from "@angular/material/table";
 
 @Component({
   selector: 'app-order',
@@ -50,16 +52,22 @@ export class OrderComponent implements OnInit {
 
   //
   customers: Customer[] = [];
+  displayedColumns: string[] = ['OrderNumber', 'OrderOn', 'customer','totalPrice', 'paymentMethod','paymentState', 'shippingStatus', 'orderState' ]
+    // 'symbol', 'symbol2','symbol3','symbol4','symbol5'];
+  dataSource = new MatTableDataSource<Order>();
 
   constructor(
     private orderService: OrderService,
     private customerService: CustomerService,
     private paymentService: PaymentService
   ) { }
+  // @ts-ignore
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit(): void {
-    //get orders
+    //get orders right at the beginning
     this.runGetOrders()
+
   }
 
   //this function does not work
@@ -96,7 +104,8 @@ export class OrderComponent implements OnInit {
             }
           )
           //assign the res to the orders
-          this.orders = res.slice()
+          this.dataSource.data = res.slice()
+          this.dataSource.paginator = this.paginator;
         }
       )
 

@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { OrderComponent } from './order/order.component';
 import {Router, RouterModule} from "@angular/router";
 import {MatIconModule} from "@angular/material/icon";
-
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatTableModule} from '@angular/material/table';
 
 
 @NgModule({
@@ -13,7 +14,9 @@ import {MatIconModule} from "@angular/material/icon";
   imports: [
     CommonModule,
     RouterModule,
-    MatIconModule
+    MatIconModule,
+    MatPaginatorModule,
+    MatTableModule
   ]
 })
 export class OrderModule { }
