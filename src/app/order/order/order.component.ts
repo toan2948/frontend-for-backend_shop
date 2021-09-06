@@ -8,6 +8,8 @@ import {PaymentService} from "../../api/service/payment.service";
 import Payment from "../../model/payment";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
+import {MatSort} from "@angular/material/sort";
+import {Event} from "@angular/router";
 
 @Component({
   selector: 'app-order',
@@ -52,8 +54,7 @@ export class OrderComponent implements OnInit {
 
   //
   customers: Customer[] = [];
-  displayedColumns: string[] = ['OrderNumber', 'OrderOn', 'customer','totalPrice', 'paymentMethod','paymentState', 'shippingStatus', 'orderState' ]
-    // 'symbol', 'symbol2','symbol3','symbol4','symbol5'];
+  displayedColumns: string[] = ['number', 'localeCode', 'customer','total', 'method','paymentState', 'shippingState', 'checkoutState' ]
   dataSource = new MatTableDataSource<Order>();
 
   constructor(
@@ -63,6 +64,8 @@ export class OrderComponent implements OnInit {
   ) { }
   // @ts-ignore
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  // @ts-ignore
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   ngOnInit(): void {
     //get orders right at the beginning
@@ -103,12 +106,19 @@ export class OrderComponent implements OnInit {
             )
             }
           )
-          //assign the res to the orders
-          this.dataSource.data = res.slice()
-          this.dataSource.paginator = this.paginator;
         }
       )
 
-    ) .subscribe()
+    ) .subscribe(res => {
+      //assign the res to the orders
+      this.dataSource.data = res.slice()
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    })
+  }
+
+  // @ts-ignore
+  filterOrders(event){
+    this.dataSource.filter = event.target.value.trim().toLowerCase()
   }
 }

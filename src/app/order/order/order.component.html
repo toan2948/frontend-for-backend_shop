@@ -3,7 +3,9 @@
   <div id = "order-filter" class="shadow-xl m-4">
     <form class="relative">
       <input class="border-2 w-1/2 p-4 mb-2 ml-2 inline-block left-0 rounded-md focus:ring-2 focus:ring-purple-600 h-12"
-             placeholder="Order-Nr, Customer-Nr ...">
+             placeholder="Order-Nr, Customer-Nr ..."
+             (keyup) = "filterOrders($event)"
+      >
       <div id="filter-search" class="inline-block absolute -mr-40">
         <button class="border-2 rounded-md w-12 ml-2 absolute h-12" >
           <mat-icon>
@@ -19,55 +21,54 @@
     </form>
   </div>
 </div>
-<div id = "order-list" class="m-4 shadow-xl rounded-lg border-0 border-2">
-    <table mat-table [dataSource]="dataSource">
-      <!-- Position Column -->
-      <ng-container matColumnDef="OrderNumber">
-        <th mat-header-cell *matHeaderCellDef> OrderNr </th>
+<div id = "order-list" class="m-8 shadow-xl rounded-lg border-0 border-2">
+    <table class="w-4/5 m-8" mat-table [dataSource]="dataSource" matSort>
+      <!-- Order Nr Column -->
+      <ng-container matColumnDef="number">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> OrderNr </th>
         <td mat-cell *matCellDef="let element"> {{element.number}} </td>
       </ng-container>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="OrderOn">
-        <th mat-header-cell *matHeaderCellDef> OrderOn </th>
-        <td mat-cell *matCellDef="let element"> {{element.number}} </td>
+      <!-- Order On Column -->
+      <ng-container matColumnDef="localeCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> OrderOn </th>
+        <td mat-cell *matCellDef="let element"> {{element.localeCode}} </td>
       </ng-container>
 
-      <!-- Weight Column -->
+      <!-- customer Column -->
       <ng-container matColumnDef="customer">
-        <th mat-header-cell *matHeaderCellDef> Customer </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Customer </th>
         <td mat-cell *matCellDef="let element"> {{element.customer}} </td>
       </ng-container>
 
-       Symbol Column
-      <ng-container matColumnDef="totalPrice">
-        <th mat-header-cell *matHeaderCellDef> Total Price </th>
+      <ng-container matColumnDef="total">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Total Price </th>
         <td mat-cell *matCellDef="let element"> {{element.total}} </td>
       </ng-container>
 
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="paymentMethod">
-        <th mat-header-cell *matHeaderCellDef> Payment Method </th>
+      <!-- Payment method Column -->
+      <ng-container matColumnDef="method">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Payment Method </th>
         <td mat-cell *matCellDef="let element">
             <p *ngFor="let payment of element.payments"> {{payment.method}}</p>
         </td>
       </ng-container>
 
-      <!-- Symbol Column -->
+      <!-- Payment State Column -->
       <ng-container matColumnDef="paymentState">
-        <th mat-header-cell *matHeaderCellDef> Payment State </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Payment State  </th>
         <td mat-cell *matCellDef="let element"> {{element.paymentState}} </td>
       </ng-container>
 
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="shippingStatus">
-        <th mat-header-cell *matHeaderCellDef> Shipping Status </th>
+      <!-- Shipping status Column -->
+      <ng-container matColumnDef="shippingState">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Shipping Status </th>
         <td mat-cell *matCellDef="let element"> {{element.shippingState}} </td>
       </ng-container>
 
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="orderState">
-        <th mat-header-cell *matHeaderCellDef> Order State </th>
+      <!-- Order State Column -->
+      <ng-container matColumnDef="checkoutState">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Order State </th>
         <td mat-cell *matCellDef="let element"> {{element.checkoutState}} </td>
       </ng-container>
 
