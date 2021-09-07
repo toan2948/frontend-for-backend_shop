@@ -1,15 +1,13 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild} from '@angular/core';
 import {OrderService} from "../../api/service/order.service";
 import Order from "../../model/order";
 import {tap} from "rxjs/operators";
 import Customer from "../../model/customer";
 import {CustomerService} from "../../api/service/customer.service";
 import {PaymentService} from "../../api/service/payment.service";
-import Payment from "../../model/payment";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
-import {Event} from "@angular/router";
 
 @Component({
   selector: 'app-order',
@@ -117,8 +115,16 @@ export class OrderComponent implements OnInit {
     })
   }
 
-  // @ts-ignore
-  filterOrders(event){
+  //Filter orders
+  filterOrders(event: Event | null){
+    // @ts-ignore
     this.dataSource.filter = event.target.value.trim().toLowerCase()
   }
+
+  //click on rows
+  testRow(row: Object){
+    console.log('hello row', row)
+  }
+
+
 }
