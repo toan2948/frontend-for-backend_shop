@@ -6,11 +6,13 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from "@angular/material/sort";
+import { OrderDetailComponent } from './order-detail/order-detail.component';
 
 
 @NgModule({
   declarations: [
-    OrderComponent
+    OrderComponent,
+    OrderDetailComponent
   ],
   imports: [
     CommonModule,

@@ -1,13 +1,16 @@
 
-export default interface Order{
-  customer: string,
+// this Payment is used in Orders Type only
+interface Payment{
+  method: string
+  id: number
+}
+
+export default interface Orders {
+ billingAddress: Object,
   channel: string,
+  customer: string,
   shippingAddress: Object,
-  billingAddress: Object,
-  payments: [{
-    id: number,
-    method: string
-  }],
+  payments: Payment[],
   shipments: [],
   currencyCode: string,
   localeCode: string,
@@ -18,14 +21,7 @@ export default interface Order{
   id: number,
   number: string,
   notes: string,
-  items: [{
-    id: number,
-    productName: string,
-    quantity: number,
-    subtotal: number,
-    total: number,
-    variant: string
-  }],
+  items: [],
   itemsTotal: number,
   total: number,
   state: string,

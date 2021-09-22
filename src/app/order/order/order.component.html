@@ -1,9 +1,9 @@
 <div class="m-4 p-0 h-full w-full">
-  <div class="pb-3 pl-4">Order</div>
+  <div class="pb-3 pl-4">Orders</div>
   <div id = "order-filter" class="shadow-xl m-4">
     <form class="relative">
       <input class="border-2 w-1/2 p-4 mb-2 ml-2 inline-block left-0 rounded-md focus:ring-2 focus:ring-purple-600 h-12"
-             placeholder="Order-Nr, Customer-Nr ..."
+             placeholder="Orders-Nr, Customer-Nr ..."
              (keyup) = "filterOrders($event)"
       >
       <div id="filter-search" class="inline-block absolute -mr-40">
@@ -23,13 +23,13 @@
 </div>
 <div id = "order-list" class="m-8 shadow-xl rounded-lg border-0 border-2">
     <table class="w-4/5 m-8" mat-table [dataSource]="dataSource" matSort>
-      <!-- Order Nr Column -->
+      <!-- Orders Nr Column -->
       <ng-container matColumnDef="number">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> OrderNr </th>
         <td mat-cell *matCellDef="let element"> {{element.number}} </td>
       </ng-container>
 
-      <!-- Order On Column -->
+      <!-- Orders On Column -->
       <ng-container matColumnDef="localeCode">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> OrderOn </th>
         <td mat-cell *matCellDef="let element"> {{element.localeCode}} </td>
@@ -66,17 +66,18 @@
         <td mat-cell *matCellDef="let element"> {{element.shippingState}} </td>
       </ng-container>
 
-      <!-- Order State Column -->
+      <!-- Orders State Column -->
       <ng-container matColumnDef="checkoutState">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Order State </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Orders State </th>
         <td mat-cell *matCellDef="let element"> {{element.checkoutState}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr           (click)="testRow(row)"
-                    mat-row
-          class="hover:bg-red-100"
-          *matRowDef="let row;columns: displayedColumns;"></tr>
+      <tr
+        mat-row
+        routerLink="{{row.tokenValue}}"
+        class="hover:bg-red-100"
+        *matRowDef="let row;columns: displayedColumns;"></tr>
     </table>
 
     <mat-paginator [pageSizeOptions]="[5, 10, 20]"

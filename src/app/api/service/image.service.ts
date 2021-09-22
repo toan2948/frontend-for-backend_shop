@@ -7,16 +7,18 @@ import Image from "../../model/image";
 
 @Injectable()
 export class ImageService {
-  urlImage =   environment.apiBaseUrl + '/api/v2/admin/product-images';
+  //in the new version,  urlImage = .... /api/v2/admin/product-images
+  urlImage =   environment.apiBaseUrl + '/api/v2/product-images';
+   httpHeaders = new HttpHeaders({
+    'Content-Type': 'application/json',
+    accept: 'application/json'
+  });
 
   constructor( private http: HttpClient ) { }
 
   postImage(body: any){
-    const httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      accept: 'application/json'
-    });
-    return this.http.post<any>(this.urlImage, body, {headers: httpHeaders});
+
+    return this.http.post<any>(this.urlImage, body, {headers: this.httpHeaders});
   }
 
 
@@ -29,6 +31,10 @@ export class ImageService {
   uploadData(data: FormData): Observable<any>{
 
     return this.http.post(this.urlImage,data);
+  }
+
+  getAnImage(id: number): Observable<Image>{
+    return this.http.get<Image> (this.urlImage + '/'  + id, {headers: this.httpHeaders} )
   }
 
 }

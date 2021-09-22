@@ -77,7 +77,7 @@ export class VariantenComponent implements OnInit {
     id: 0,
     mainTaxon: '',
     translations: {},
-    image: []};
+    images: []};
 
   checkReceivingProduct(){
     console.log('varianten received: ', this.receivedProduct);

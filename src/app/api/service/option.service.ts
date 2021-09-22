@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import Option from "../../model/option";
 import OptionValues from "../../model/optionValues";
 import Taxon from "../../model/taxon";
+import Variant from "../../model/variant";
 
 @Injectable()
 export class OptionService {
@@ -81,6 +82,10 @@ export class OptionService {
 
   getProductVariants(){
     return this.http.get(this.urlProductVariant, {headers: this.httpHeaders});
+  }
+
+  getSingleVariant(code: string): Observable<Variant>{
+    return this.http.get<Variant>(this.urlProductVariant + '/' + code, {headers: this.httpHeaders})
   }
 
   postNewOption(data: Option){

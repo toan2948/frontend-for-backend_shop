@@ -2,13 +2,18 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
-import {tap} from "rxjs/operators";
 import Product from "../../model/product";
+import {C} from "@angular/cdk/keycodes";
+import Image from "../../model/image";
+import ChannelPricing from "../../model/channel-pricing";
 
 @Injectable()
 export class ProductService {
+  // apiBaseUrl: 'http://127.0.0.1:8000',
+  // apiBaseAdminUrl: 'http://127.0.0.1:8000/api/v2/admin/'
   urlProduct = environment.apiBaseUrl + '/api/v2/admin/products';
   urlImage =   environment.apiBaseUrl + '/api/v2/admin/product-images';
+  urLChannel = environment.apiBaseUrl + '/api/v2/admin/channel-pricings/'
 
    httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -23,7 +28,7 @@ export class ProductService {
     // return this.http.get(this.urlProduct);
   }
 
-  getSingleProduct(code: string) {
+  getSingleProduct(code: string): Observable<Product> {
     return this.http.get<Product>(this.urlProduct + '/' + code, {headers: this.httpHeaders});
   }
 
@@ -42,12 +47,8 @@ export class ProductService {
   //   formData.append('fileKey', fileToUpload, fileToUpload.name);
   //   return 1;
   // }
-  getImages(){
-    const httpHeaders = new HttpHeaders({
-      'Content-Type': 'application/json',
-      accept: 'application/json'
-    });
-    return this.http.get<any>(this.urlImage, {headers: httpHeaders});
+  getImages(): Observable<Image[]>{
+    return this.http.get<Image[]>(this.urlImage, {headers: this.httpHeaders});
   }
   postImage(body: any){
     const httpHeaders = new HttpHeaders({
@@ -55,5 +56,9 @@ export class ProductService {
       // accept: 'application/json'
     });
     return this.http.post<any>(this.urlImage, body, {headers: httpHeaders});
+  }
+
+  getChannelPricing(id: number) : Observable<ChannelPricing> {
+    return this.http.get<ChannelPricing>(this.urLChannel + id, {headers: this.httpHeaders})
   }
 }

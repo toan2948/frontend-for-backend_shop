@@ -6,5 +6,5 @@ export default interface Product {
   id: number,
   mainTaxon: string,
   translations: object,
-  image: Image[]
+  images: Image[]
 }

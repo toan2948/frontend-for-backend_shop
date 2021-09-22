@@ -1,0 +1,55 @@
+<div class="m-4 p-0 h-full w-full">
+  <div routerLink = "/order" class="py-3 pl-12 relative hover:bg-red-100 cursor-pointer w-1/4">
+    <div class="absolute left-0 ml-4" style="top: 55%; transform: translate(0, -50%)">
+      <mat-icon  class="material-icons"> arrow_back_ios </mat-icon>
+    </div>
+   Back to Orders
+  </div>
+
+  <div class ="mx-4 p-0 h-full w-3/5">
+    <p class="font-bold"># Orders Number: {{order.number}}</p>
+    <p class="my-2">Orders on {{order.number}} <span class="bg-green-200 p-2 rounded-md"> {{order.paymentState}}</span>&nbsp;&nbsp;&nbsp;
+      <span class="bg-green-200 p-2 rounded-md" >{{order.shippingState}}</span></p>
+    <button class="p-2 bg-yellow-200 rounded-md right-0">Edit</button>
+  </div>
+  <div id= "order_overview" class="m-4 p-0 w-3/5 border-t-l-2 rounded-xl">
+      <table class="w-full">
+        <thead class="border-b-2">
+          <tr >
+            <th>Item</th>
+            <th>Unit Price</th>
+            <th>Unit Discount</th>
+            <th>Discounted Unit Price</th>
+            <th>Quantity</th>
+            <th>Subtotal</th>
+            <th>Tax</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b-2" *ngFor = "let item of order.items; let i = index">
+            <td> {{item.productName}}, size: {{variants[i].translations.en_US.name}} </td>
+            <td>{{variantPrices[i].price}}
+<!--            <td>{{item.unitPrice}}</td>-->
+<!--              unitPrice is not available in the order of the old version of Sylius-->
+            <td></td>
+            <td></td>
+            <td>{{item.quantity}}</td>
+            <td>${{item.subtotal}}</td>
+            <td></td>
+            <td>${{item.total}}</td>
+
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3"></td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+  </div>
+<img src="{{imgTest}}" width="500" height="600">
+</div>
+
+
