@@ -41,9 +41,6 @@ export class OrderDetailComponent implements OnInit {
 
   products: Product[] =[]
 
-  //variantPrices:
-  variantPrices: ChannelPricing[]= []
-
   //image path: ex: /99/4a/16fd7b6df59646c37201e7a4a760.jpg
 
   images: Image[] = []
@@ -80,6 +77,7 @@ export class OrderDetailComponent implements OnInit {
 
           //copy the res to the order
           this.order = JSON.parse(JSON.stringify(res))
+          console.log('order', this.order)
 
           //get codes of variants (variantCodes)
           this.variantCodes = res.items.map(element =>
@@ -119,10 +117,7 @@ export class OrderDetailComponent implements OnInit {
               }
             )
           )
-            .subscribe(
-              (res) => this.runGetVariantPrices(res)
-            )
-
+            .subscribe()
         })
         })
   }
@@ -135,14 +130,6 @@ export class OrderDetailComponent implements OnInit {
       }
     )
   }
-
-  runGetVariantPrices(variant: Variant){
-    //get unit prices of variants
-      this.productService.getChannelPricing(variant.id).subscribe(
-        res => this.variantPrices.push(res)
-      )
-    }
-
 
 
   //get the code of the product from the product name

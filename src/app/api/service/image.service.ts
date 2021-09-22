@@ -7,8 +7,8 @@ import Image from "../../model/image";
 
 @Injectable()
 export class ImageService {
-  //in the new version,  urlImage = .... /api/v2/admin/product-images
-  urlImage =   environment.apiBaseUrl + '/api/v2/product-images';
+  //in the new version of Sylius (1.10),  urlImage = .... /api/v2/admin/product-images
+  urlImage =   environment.apiBaseUrl + '/api/v2/admin/product-images';
    httpHeaders = new HttpHeaders({
     'Content-Type': 'application/json',
     accept: 'application/json'

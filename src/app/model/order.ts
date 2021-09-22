@@ -25,6 +25,7 @@ export default interface Order{
     subtotal: number,
     total: number,
     variant: string
+    unitPrice:number
   }],
   itemsTotal: number,
   total: number,
