@@ -7,6 +7,9 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from "@angular/material/sort";
 import { OrderDetailComponent } from './order-detail/order-detail.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
 
 @NgModule({
@@ -20,7 +23,10 @@ import { OrderDetailComponent } from './order-detail/order-detail.component';
     MatIconModule,
     MatPaginatorModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 export class OrderModule { }

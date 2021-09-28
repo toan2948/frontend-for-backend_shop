@@ -55,6 +55,8 @@ export class OrderComponent implements OnInit {
   displayedColumns: string[] = ['number', 'localeCode', 'customer','total', 'method','paymentState', 'shippingState', 'checkoutState' ]
   dataSource = new MatTableDataSource<Orders>();
 
+  hideShowFilterVariable: boolean =false;
+
 
   constructor(
     private orderService: OrderService,
@@ -69,9 +71,6 @@ export class OrderComponent implements OnInit {
   ngOnInit(): void {
     //get orders right at the beginning
      this.runGetOrders()
-    // this.runGetOrder2()
-    // this.runGetOrder3()
-
   }
 
   //this function does not work
@@ -120,34 +119,6 @@ export class OrderComponent implements OnInit {
     })
   }
 
-  runGetOrder2(){
-    this.orderService.getOrders().pipe(
-      tap(
-        res =>
-          {
-            console.log('original res', res)
-            //=> console will log the modified res, not the original res, because that is how javascript works.
-            //
-            //slice() only makes a reference to the res, not creating a new array
-            //this.orders = res.slice()
-            //make a copy of res (deep copy), it will creat a new array
-            this.orders = JSON.parse(JSON.stringify(res))
-
-            console.log('orders', this.orders)
-            console
-            res.map(res => res.customer = res.customer.substr(24))
-          }
-      )
-    )
-      .subscribe()
-  }
-
-  runGetOrder3(){
-    this.orderService.getOrders().subscribe(res => {
-      console.log('res', res)
-      res.map(res => res.customer = res.customer.substr(24))
-    })
-  }
 
   //Filter orders
   filterOrders(event: Event | null){
@@ -155,7 +126,13 @@ export class OrderComponent implements OnInit {
     this.dataSource.filter = event.target.value.trim().toLowerCase()
   }
 
+  hideShowFilter(){
+      this.hideShowFilterVariable = !this.hideShowFilterVariable
+  }
 
+  filterByDate() {
+      this.orderService.getOrders()
+  }
 
 
 }

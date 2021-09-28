@@ -7,18 +7,25 @@
              (keyup) = "filterOrders($event)"
       >
       <div id="filter-search" class="inline-block absolute -mr-40">
-        <button class="border-2 rounded-md w-12 ml-2 absolute h-12" >
-          <mat-icon>
-          filter_alt
-        </mat-icon>
+        <button type="button" class="border-2 rounded-md w-12 ml-2 absolute h-12 bg-green-500" (click)="hideShowFilter()">
+          <mat-icon>filter_alt</mat-icon>
         </button>
-        <button class="border-2 rounded-md w-12 ml-16 absolute h-12">
-          <mat-icon>
-            search
-          </mat-icon>
+        <button type="button" class="border-2 rounded-md w-12 ml-16 absolute h-12" >
+          <mat-icon>search</mat-icon>
         </button>
       </div>
     </form>
+    <div id= "filter" class="p-4">
+      <form>
+        <p>Date</p>
+        <input type="date" id="start" #startDate>
+        bis
+        <input type="date" id="end" min= "{{startDate.min }} " >
+        <br/>
+        <button id="applyButton" class="border-2 rounded-md p-2 ml-2" (click)="filterByDate()">Apply</button>
+      </form>
+
+    </div>
   </div>
 </div>
 <div id = "order-list" class="m-8 shadow-xl rounded-lg border-0 border-2">
